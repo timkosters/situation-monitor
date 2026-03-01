@@ -21,15 +21,15 @@ export interface MainCharacterResults {
  */
 export function calculateMainCharacter(allNews: NewsItem[]): MainCharacterResults {
 	if (!allNews || allNews.length === 0) {
-		// Fallback data based on current news cycle (March 2026)
+		// Fallback data based on current news cycle (March 1, 2026 — Iran strikes dominating)
 		const fallback: MainCharacterEntry[] = [
-			{ name: 'Donald Trump', count: 47, rank: 1 },
-			{ name: 'Volodymyr Zelensky', count: 23, rank: 2 },
-			{ name: 'Elon Musk', count: 19, rank: 3 },
-			{ name: 'Emmanuel Macron', count: 12, rank: 4 },
-			{ name: 'Xi Jinping', count: 9, rank: 5 },
-			{ name: 'Jared Kushner', count: 7, rank: 6 },
-			{ name: 'Kaja Kallas', count: 5, rank: 7 }
+			{ name: 'Donald Trump', count: 52, rank: 1 },
+			{ name: 'Ali Khamenei', count: 31, rank: 2 },
+			{ name: 'Benjamin Netanyahu', count: 24, rank: 3 },
+			{ name: 'Dario Amodei', count: 14, rank: 4 },
+			{ name: 'Marco Rubio', count: 11, rank: 5 },
+			{ name: 'Sam Altman', count: 9, rank: 6 },
+			{ name: 'Vladimir Putin', count: 7, rank: 7 }
 		];
 		return { characters: fallback, topCharacter: fallback[0] };
 	}

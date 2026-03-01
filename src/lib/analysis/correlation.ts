@@ -77,125 +77,125 @@ function getFallbackCorrelations(): CorrelationResults {
 	return {
 		emergingPatterns: [
 			{
-				id: 'ukraine-peace',
-				name: 'Ukraine Peace Talks',
+				id: 'iran-strikes',
+				name: 'US-Israel Iran Strikes',
 				category: 'Conflict',
+				count: 22,
+				level: 'high',
+				sources: ['PBS', 'Al Jazeera', 'Bloomberg', 'NPR', 'Times of Israel'],
+				headlines: [
+					{ title: 'Ayatollah Khamenei killed in US-Israel joint strikes on Iran', link: 'https://www.pbs.org/newshour/world/us-and-israel-launch-a-major-attack-on-iran-and-trump-urges-iranians-to-take-over-your-government', source: 'PBS News' },
+					{ title: 'Iran retaliates with strikes on Israel; 1 killed, 121 injured', link: 'https://www.aljazeera.com/news/liveblog/2026/2/28/live-israel-launches-attacks-on-iran-multiple-explosions-heard-in-tehran', source: 'Al Jazeera' }
+				]
+			},
+			{
+				id: 'anthropic-pentagon',
+				name: 'AI Military Policy Split',
+				category: 'Tech',
 				count: 14,
 				level: 'high',
-				sources: ['Reuters', 'Bloomberg', 'Al Jazeera', 'BBC', 'The Hill'],
+				sources: ['NPR', 'TechCrunch', 'Al Jazeera', 'Yahoo Finance'],
 				headlines: [
-					{ title: 'Trilateral US-Ukraine-Russia talks underway; POW swap completed', link: '#', source: 'ABC News' },
-					{ title: 'Trump blames Zelensky for slowing peace deal', link: '#', source: 'The Hill' }
+					{ title: 'Trump bans Anthropic from US government; Pentagon designates it supply chain risk', link: 'https://www.npr.org/2026/02/27/nx-s1-5729118/trump-anthropic-pentagon-openai-ai-weapons-ban', source: 'NPR' },
+					{ title: 'OpenAI signs Pentagon deal for classified networks hours after Anthropic ban', link: 'https://www.aljazeera.com/news/2026/2/28/openai-strikes-deal-with-pentagon-to-use-tech-in-classified-network', source: 'Al Jazeera' }
 				]
 			},
 			{
-				id: 'tariffs',
-				name: 'US Tariff Escalation',
+				id: 'tariff-scotus',
+				name: 'Tariff Constitutional Crisis',
 				category: 'Economy',
-				count: 11,
-				level: 'high',
-				sources: ['Tax Foundation', 'CNBC', 'Bloomberg', 'WSJ'],
-				headlines: [
-					{ title: 'China tariffs increased to 20% as of March 4', link: '#', source: 'Tax Foundation' },
-					{ title: 'Supreme Court rules against Trump emergency tariff powers', link: '#', source: 'CNBC' }
-				]
-			},
-			{
-				id: 'ai-infrastructure',
-				name: 'AI Infrastructure Build',
-				category: 'Tech',
-				count: 8,
+				count: 9,
 				level: 'elevated',
-				sources: ['MIT Tech Review', 'TechCrunch', 'The Verge'],
+				sources: ['Tax Foundation', 'Yahoo Finance', 'Motley Fool'],
 				headlines: [
-					{ title: 'Agentic AI moves from demo to production in 2026', link: '#', source: 'TechCrunch' },
-					{ title: 'Generative coding named MIT breakthrough technology of 2026', link: '#', source: 'MIT Tech Review' }
+					{ title: 'Supreme Court strikes down Trump IEEPA tariffs 6-3; new 15% global tariff announced', link: 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', source: 'Tax Foundation' },
+					{ title: 'Dow drops 800 points on tariff fears and AI scare trade', link: 'https://finance.yahoo.com/news/live/stock-market-today-dow-drops-800-points-as-sp-500-nasdaq-slide-on-trump-tariff-fears-ai-scare-trade-210027026.html', source: 'Yahoo Finance' }
 				]
 			}
 		],
 		momentumSignals: [
 			{
-				id: 'transatlantic-rupture',
-				name: 'Transatlantic Rupture',
+				id: 'iran-regime-change',
+				name: 'Iran Regime Change Push',
 				category: 'Geopolitics',
-				current: 9,
-				delta: 4,
+				current: 15,
+				delta: 8,
 				momentum: 'surging',
 				headlines: [
-					{ title: 'EU pushes back on US pressure on Ukraine', link: '#', source: 'Bloomberg' }
+					{ title: 'Trump calls for Iranian regime change, says strikes will continue', link: 'https://www.pbs.org/newshour/world/us-and-israel-launch-a-major-attack-on-iran-and-trump-urges-iranians-to-take-over-your-government', source: 'PBS News' }
 				]
 			},
 			{
-				id: 'doge-fallout',
-				name: 'DOGE Accountability',
+				id: 'ai-militarization',
+				name: 'AI Militarization Debate',
+				category: 'Tech',
+				current: 9,
+				delta: 5,
+				momentum: 'surging',
+				headlines: [
+					{ title: '200+ Google and OpenAI employees sign letter supporting Anthropic military AI limits', link: 'https://techcrunch.com/2026/02/27/employees-at-google-and-openai-support-anthropics-pentagon-stand-in-open-letter/', source: 'TechCrunch' }
+				]
+			},
+			{
+				id: 'war-powers',
+				name: 'War Powers Constitutional Fight',
 				category: 'Politics',
-				current: 7,
+				current: 6,
 				delta: 3,
 				momentum: 'rising',
 				headlines: [
-					{ title: 'DOGE largely defeated in Congress — savings ~$20B not $160B', link: '#', source: 'Washington Times' }
-				]
-			},
-			{
-				id: 'iran-nuclear',
-				name: 'Iran Nuclear Timeline',
-				category: 'Conflict',
-				current: 5,
-				delta: 2,
-				momentum: 'rising',
-				headlines: [
-					{ title: 'Trump: I will never allow Iran to have a nuclear weapon', link: '#', source: 'CBS News' }
+					{ title: 'Democrats demand emergency vote to reassert war powers over Iran', link: 'https://www.washingtonpost.com/politics/2026/02/28/war-powers-congress-trump-iran/', source: 'Washington Post' }
 				]
 			}
 		],
 		crossSourceCorrelations: [
 			{
-				id: 'ukraine-peace',
-				name: 'Ukraine Peace Talks',
+				id: 'iran-crisis',
+				name: 'Iran Crisis Coverage',
 				category: 'Conflict',
-				sourceCount: 6,
-				sources: ['Reuters', 'Bloomberg', 'Al Jazeera', 'BBC', 'The Hill', 'ABC News'],
+				sourceCount: 8,
+				sources: ['PBS', 'Al Jazeera', 'Bloomberg', 'NPR', 'Times of Israel', 'Washington Post', 'CFR', 'BBC'],
 				level: 'high',
 				headlines: []
 			},
 			{
-				id: 'tariffs',
-				name: 'US Trade War',
-				category: 'Economy',
+				id: 'ai-defense-split',
+				name: 'AI Defense Industry Split',
+				category: 'Tech',
 				sourceCount: 5,
-				sources: ['Tax Foundation', 'CNBC', 'Bloomberg', 'WSJ', 'S&P Global'],
+				sources: ['NPR', 'TechCrunch', 'Al Jazeera', 'Yahoo Finance', 'Bloomberg'],
 				level: 'high',
 				headlines: []
 			},
 			{
-				id: 'gaza-ceasefire',
-				name: 'Gaza Ceasefire Phase 2',
-				category: 'Conflict',
+				id: 'market-selloff',
+				name: 'Multi-Factor Market Selloff',
+				category: 'Finance',
 				sourceCount: 4,
-				sources: ['Times of Israel', 'Al Jazeera', 'BBC', 'Reuters'],
+				sources: ['Yahoo Finance', 'Motley Fool', 'Tax Foundation', 'CNBC'],
 				level: 'elevated',
 				headlines: []
 			}
 		],
 		predictiveSignals: [
 			{
-				id: 'tariffs',
-				name: 'US Tariff Escalation',
-				category: 'Economy',
-				score: 28,
-				confidence: 0.78,
-				prediction: 'Market volatility likely as March 4 China tariff increase takes effect',
+				id: 'iran-escalation',
+				name: 'Iran Escalation Trajectory',
+				category: 'Conflict',
+				score: 35,
+				confidence: 0.82,
+				prediction: 'Ceasefire negotiations likely within days; market disruption from Middle East shipping routes',
 				level: 'high',
 				headlines: []
 			},
 			{
-				id: 'ukraine-deal',
-				name: 'Ukraine Deal Pressure',
-				category: 'Conflict',
-				score: 22,
-				confidence: 0.65,
-				prediction: 'Diplomatic activity likely to intensify before spring offensive window',
-				level: 'medium',
+				id: 'ai-policy-realignment',
+				name: 'AI Policy Realignment',
+				category: 'Tech',
+				score: 24,
+				confidence: 0.71,
+				prediction: 'Expect further government AI contractor consolidation toward OpenAI/Microsoft axis',
+				level: 'high',
 				headlines: []
 			}
 		]

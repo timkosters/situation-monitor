@@ -37,63 +37,63 @@ export interface Layoff {
  * Note: Polymarket API requires authentication - returns curated prediction data
  */
 export async function fetchPolymarket(): Promise<Prediction[]> {
-	// Active Polymarket prediction markets (updated regularly)
+	// Active Polymarket prediction markets (live data as of March 1, 2026)
 	return [
 		{
 			id: 'pm-1',
-			question: 'US strikes Iran by April 2026?',
-			yes: 62,
-			volume: '529M',
-			url: 'https://polymarket.com/world'
+			question: 'US/Israel strikes Iran on March 2?',
+			yes: 97,
+			volume: '$529M',
+			url: 'https://polymarket.com/event/usisrael-strikes-iran-on'
 		},
 		{
 			id: 'pm-2',
-			question: 'Supreme Court vacancy in 2026?',
-			yes: 38,
-			volume: '12M',
-			url: 'https://polymarket.com/predictions/2026-predictions'
+			question: 'Trump nominates Kevin Warsh as Fed Chair?',
+			yes: 93,
+			volume: '$553M',
+			url: 'https://polymarket.com/economy'
 		},
 		{
 			id: 'pm-3',
-			question: 'Bitcoin above $100K end of March 2026?',
-			yes: 44,
-			volume: '18M',
-			url: 'https://polymarket.com/breaking/finance'
+			question: 'US-Iran ceasefire by March 31?',
+			yes: 61,
+			volume: '$1.5M',
+			url: 'https://polymarket.com/event/usisrael-strikes-iran-on'
 		},
 		{
 			id: 'pm-4',
-			question: 'Fed cuts rates before July 2026?',
-			yes: 51,
-			volume: '8.4M',
-			url: 'https://polymarket.com/breaking/finance'
+			question: 'Iranian regime falls by June 30?',
+			yes: 54,
+			volume: '$467K',
+			url: 'https://polymarket.com/predictions/all'
 		},
 		{
 			id: 'pm-5',
-			question: 'Ukraine ceasefire agreement in 2026?',
-			yes: 29,
-			volume: '15M',
-			url: 'https://polymarket.com/world'
+			question: 'Fed holds rates in March meeting?',
+			yes: 96,
+			volume: '$192M',
+			url: 'https://polymarket.com/economy'
 		},
 		{
 			id: 'pm-6',
-			question: 'OpenAI releases GPT-5 by June 2026?',
-			yes: 55,
-			volume: '6.2M',
-			url: 'https://polymarket.com/predictions/openai'
+			question: 'US ground invasion of Iran before 2027?',
+			yes: 19,
+			volume: '$2M',
+			url: 'https://polymarket.com/event/usisrael-strikes-iran-on'
 		},
 		{
 			id: 'pm-7',
-			question: 'S&P 500 above 6000 end of Q1 2026?',
-			yes: 41,
-			volume: '4.8M',
-			url: 'https://polymarket.com/breaking/finance'
+			question: '2026 FIFA World Cup winner: Spain?',
+			yes: 15,
+			volume: '$229M',
+			url: 'https://polymarket.com/predictions/all'
 		},
 		{
 			id: 'pm-8',
-			question: 'US-China tariff escalation in 2026?',
-			yes: 67,
-			volume: '9.1M',
-			url: 'https://polymarket.com/world'
+			question: 'US-Iran ceasefire by March 6?',
+			yes: 15,
+			volume: '$1.2M',
+			url: 'https://polymarket.com/event/usisrael-strikes-iran-on'
 		}
 	];
 }

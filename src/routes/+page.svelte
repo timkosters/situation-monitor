@@ -64,7 +64,6 @@
 
 	// Data fetching
 	async function loadNews() {
-		// Set loading for all categories
 		const categories = ['politics', 'tech', 'finance', 'gov', 'ai', 'intel'] as const;
 		categories.forEach((cat) => news.setLoading(cat, true));
 
@@ -134,7 +133,6 @@
 		}
 	}
 
-	// Refresh handlers
 	async function handleRefresh() {
 		refresh.startRefresh();
 		try {
@@ -145,7 +143,6 @@
 		}
 	}
 
-	// Monitor handlers
 	function handleCreateMonitor() {
 		editingMonitor = null;
 		monitorFormOpen = true;
@@ -164,34 +161,27 @@
 		monitors.toggleMonitor(id);
 	}
 
-	// Get panel visibility
 	function isPanelVisible(id: PanelId): boolean {
 		return $settings.enabled[id] !== false;
 	}
 
-	// Handle preset selection from onboarding
 	function handleSelectPreset(presetId: string) {
 		settings.applyPreset(presetId);
 		onboardingOpen = false;
-		// Refresh data after applying preset
 		handleRefresh();
 	}
 
-	// Show onboarding again (called from settings)
 	function handleReconfigure() {
 		settingsOpen = false;
 		settings.resetOnboarding();
 		onboardingOpen = true;
 	}
 
-	// Initial load
 	onMount(() => {
-		// Check if first visit
 		if (!settings.isOnboardingComplete()) {
 			onboardingOpen = true;
 		}
 
-		// Load initial data and track as refresh
 		async function initialLoad() {
 			refresh.startRefresh();
 			try {
@@ -228,8 +218,50 @@
 		<div class="split-layout">
 			<!-- Left side: feeds -->
 			<div class="feeds-column">
+				<!-- Charts row: full-width above the masonry grid -->
+				<div class="charts-row">
+					{#if isPanelVisible('polymarket')}
+						<div class="chart-slot">
+							<PolymarketPanel {predictions} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('crypto')}
+						<div class="chart-slot">
+							<CryptoPanel />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('mainchar')}
+						<div class="chart-slot chart-slot-narrow">
+							<MainCharPanel />
+						</div>
+					{/if}
+				</div>
+
+				<!-- Analysis row -->
+				<div class="charts-row">
+					{#if isPanelVisible('correlation')}
+						<div class="chart-slot">
+							<CorrelationPanel news={$allNewsItems} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('narrative')}
+						<div class="chart-slot">
+							<NarrativePanel news={$allNewsItems} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('markets')}
+						<div class="chart-slot chart-slot-narrow">
+							<MarketsPanel />
+						</div>
+					{/if}
+				</div>
+
+				<!-- Masonry grid for remaining panels -->
 				<Dashboard>
-					<!-- News Panels -->
 					{#if isPanelVisible('politics')}
 						<div class="panel-slot">
 							<NewsPanel category="politics" panelId="politics" title="Politics" />
@@ -260,13 +292,6 @@
 						</div>
 					{/if}
 
-					<!-- Markets Panels -->
-					{#if isPanelVisible('markets')}
-						<div class="panel-slot">
-							<MarketsPanel />
-						</div>
-					{/if}
-
 					{#if isPanelVisible('heatmap')}
 						<div class="panel-slot">
 							<HeatmapPanel />
@@ -279,53 +304,24 @@
 						</div>
 					{/if}
 
-					{#if isPanelVisible('crypto')}
-						<div class="panel-slot">
-							<CryptoPanel />
-						</div>
-					{/if}
-
-					<!-- Analysis Panels -->
-					{#if isPanelVisible('mainchar')}
-						<div class="panel-slot">
-							<MainCharPanel />
-						</div>
-					{/if}
-
-					{#if isPanelVisible('correlation')}
-						<div class="panel-slot">
-							<CorrelationPanel news={$allNewsItems} />
-						</div>
-					{/if}
-
-					{#if isPanelVisible('narrative')}
-						<div class="panel-slot">
-							<NarrativePanel news={$allNewsItems} />
-						</div>
-					{/if}
-
-					<!-- Intel Panel -->
 					{#if isPanelVisible('intel')}
 						<div class="panel-slot">
 							<IntelPanel />
 						</div>
 					{/if}
 
-					<!-- Fed Panel -->
 					{#if isPanelVisible('fed')}
 						<div class="panel-slot">
 							<FedPanel />
 						</div>
 					{/if}
 
-					<!-- World Leaders Panel -->
 					{#if isPanelVisible('leaders')}
 						<div class="panel-slot">
 							<WorldLeadersPanel {leaders} loading={leadersLoading} />
 						</div>
 					{/if}
 
-					<!-- Situation Panels -->
 					{#if isPanelVisible('networkstates')}
 						<div class="panel-slot">
 							<SituationPanel
@@ -403,16 +399,9 @@
 						</div>
 					{/if}
 
-					<!-- Placeholder panels for additional data sources -->
 					{#if isPanelVisible('whales')}
 						<div class="panel-slot">
 							<WhalePanel {whales} />
-						</div>
-					{/if}
-
-					{#if isPanelVisible('polymarket')}
-						<div class="panel-slot">
-							<PolymarketPanel {predictions} />
 						</div>
 					{/if}
 
@@ -428,14 +417,12 @@
 						</div>
 					{/if}
 
-					<!-- Money Printer Panel -->
 					{#if isPanelVisible('printer')}
 						<div class="panel-slot">
 							<PrinterPanel />
 						</div>
 					{/if}
 
-					<!-- Custom Monitors (always last) -->
 					{#if isPanelVisible('monitors')}
 						<div class="panel-slot">
 							<MonitorsPanel
@@ -500,6 +487,22 @@
 		min-width: 0;
 	}
 
+	/* Charts row: horizontal flex layout above masonry */
+	.charts-row {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.chart-slot {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.chart-slot-narrow {
+		flex: 0.7;
+	}
+
 	.map-column {
 		flex: 1;
 		position: sticky;
@@ -526,6 +529,14 @@
 			position: relative;
 			height: 300px;
 			min-width: unset;
+		}
+
+		.charts-row {
+			flex-direction: column;
+		}
+
+		.chart-slot-narrow {
+			flex: 1;
 		}
 	}
 </style>

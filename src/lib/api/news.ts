@@ -162,51 +162,51 @@ function getFallbackNews(category: NewsCategory): NewsItem[] {
 
 	const fallbacks: Record<NewsCategory, NewsItem[]> = {
 		politics: [
-			makeItem('Trump delivers longest State of the Union in history, declares "golden age"', 'CNBC', 'https://www.cnbc.com/2026/02/25/takeaways-trump-state-of-the-union-2026.html', 4),
-			makeItem('Ukraine-Russia peace talks stall as Trump blames Zelensky for delays', 'The Hill', 'https://thehill.com/policy/defense/5690193-trump-says-zelensky-slowing-peace-deal/', 6),
-			makeItem('Trilateral US-Ukraine-Russia talks underway; POW swap completed', 'ABC News', 'https://abcnews.com/International/us-ukraine-russia-peace-talks/', 8),
-			makeItem('DOGE largely defeated in Congress — final savings estimated at $20B, not $160B', 'Washington Times', 'https://www.washingtontimes.com/news/2026/feb/19/doge-defeat/', 12),
-			makeItem('Supreme Court rules against Trump emergency tariff powers', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 14),
-			makeItem('Gaza ceasefire enters fragile Phase 2; Hamas refuses disarmament', 'Times of Israel', 'https://www.timesofisrael.com/us-plans-to-start-2nd-phase-of-gaza-deal/', 16),
-			makeItem('Nepal elections scheduled March 5 following Gen Z-led revolt', 'CIDOB', 'https://www.cidob.org/en/publications/world-2026-ten-issues/', 20),
-			makeItem('Iran nuclear diplomacy active; Trump threatens force if deal fails', 'CBS News', 'https://www.cbsnews.com/live-updates/state-of-the-union-2026/', 22),
-			makeItem('Water conflicts escalating globally — Indus, Nile, Mekong', 'Chatham House', 'https://www.cidob.org/en/publications/world-2026-ten-issues/', 24),
-			makeItem('China launches 15th Five-Year Plan, accelerating tech self-reliance', 'CIDOB', 'https://www.cidob.org/en/publications/world-2026-ten-issues/', 26)
+			makeItem('Ayatollah Khamenei killed in US-Israel joint strikes on Iran', 'PBS News', 'https://www.pbs.org/newshour/world/us-and-israel-launch-a-major-attack-on-iran-and-trump-urges-iranians-to-take-over-your-government', 2),
+			makeItem('Trump calls for Iranian regime change, says strikes will continue', 'PBS News', 'https://www.pbs.org/newshour/world/us-and-israel-launch-a-major-attack-on-iran-and-trump-urges-iranians-to-take-over-your-government', 4),
+			makeItem('Democrats demand emergency vote to reassert war powers over Iran', 'Washington Post', 'https://www.washingtonpost.com/politics/2026/02/28/war-powers-congress-trump-iran/', 6),
+			makeItem('CFR: US-Israel Iran strikes could reshape Middle East balance of power', 'CFR', 'https://www.cfr.org/articles/gauging-the-impact-of-massive-u-s-israeli-strikes-on-iran', 8),
+			makeItem('Supreme Court strikes down Trump IEEPA tariffs 6-3; new 15% global tariff announced', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 12),
+			makeItem('House votes 219-211 to repeal Canadian tariffs, small GOP group crosses lines', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 16),
+			makeItem('Iran retaliates with strikes on Israel; 1 killed, 121 injured', 'Al Jazeera', 'https://www.aljazeera.com/news/liveblog/2026/2/28/live-israel-launches-attacks-on-iran-multiple-explosions-heard-in-tehran', 18),
+			makeItem('1,800+ flights canceled across Middle East following Iran strikes', 'Times of Israel', 'https://www.timesofisrael.com/liveblog-february-28-2026/', 20),
+			makeItem('Putin calls Khamenei killing a "cynical murder"', 'Bloomberg', 'https://www.bloomberg.com/news/articles/2026-02-28/ali-khamenei-iran-s-supreme-leader-killed-in-us-israel-strikes', 22),
+			makeItem('Secretary Rubio traveling to Israel for post-strike coordination talks', 'NPR', 'https://www.npr.org/2026/02/28/nx-s1-5730151/trump-iran-nuclear-talks', 24)
 		],
 		tech: [
-			makeItem('Apple announces AI-powered Siri overhaul for iOS 26.4, powered by Google Gemini', 'Crescendo AI', 'https://www.crescendo.ai/news/latest-ai-news-and-updates', 3),
-			makeItem('Samsung targets 800M Gemini-equipped devices by end of 2026', 'Crescendo AI', 'https://www.crescendo.ai/news/latest-ai-news-and-updates', 8),
-			makeItem('Generative coding named MIT Technology Review Breakthrough of 2026', 'MIT Tech Review', 'https://www.technologyreview.com/2026/01/12/generative-coding/', 12),
-			makeItem('Digital provenance emerging as critical security layer against deepfakes', 'Reuters Institute', 'https://reutersinstitute.politics.ox.ac.uk/journalism-media-and-technology-trends-and-predictions-2026', 18),
-			makeItem('Ransomware evolving toward targeted operational disruption of infrastructure', 'Dark Reading', 'https://www.darkreading.com/threat-intelligence/cybersecurity-predictions-for-2026', 22)
+			makeItem('Trump bans US government from using Anthropic; Pentagon designates it supply chain risk', 'NPR', 'https://www.npr.org/2026/02/27/nx-s1-5729118/trump-anthropic-pentagon-openai-ai-weapons-ban', 2),
+			makeItem('OpenAI immediately signs Pentagon deal for classified networks after Anthropic ban', 'Al Jazeera', 'https://www.aljazeera.com/news/2026/2/28/openai-strikes-deal-with-pentagon-to-use-tech-in-classified-network', 4),
+			makeItem('200+ Google and OpenAI employees sign letter supporting Anthropic military AI limits', 'TechCrunch', 'https://techcrunch.com/2026/02/27/employees-at-google-and-openai-support-anthropics-pentagon-stand-in-open-letter/', 8),
+			makeItem('The trap Anthropic built for itself', 'TechCrunch', 'https://techcrunch.com/2026/02/28/the-trap-anthropic-built-for-itself/', 12),
+			makeItem('White House hosting AI data center summit March 4 on electricity demand', 'Yahoo Finance', 'https://finance.yahoo.com/news/live/stock-market-today-dow-drops-800-points-as-sp-500-nasdaq-slide-on-trump-tariff-fears-ai-scare-trade-210027026.html', 18)
 		],
 		finance: [
-			makeItem('Wall Street forecasts S&P 500 up ~12% in 2026, target 7,650-7,800', 'Motley Fool', 'https://www.fool.com/investing/2026/02/26/wall-street-stock-market-return-2026/', 4),
-			makeItem('US tariff regime largest tax increase since 1993; avg household cost $1,500/yr', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 8),
-			makeItem('China tariffs increased to 20% as of March 4', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 10),
-			makeItem('Sterling weakest G10 currency in February, down 1.7% vs dollar', 'S&P Global', 'https://www.spglobal.com/marketintelligence/', 14),
-			makeItem('PMI data and US jobs report due this week setting macro tone for March', 'S&P Global', 'https://www.spglobal.com/marketintelligence/', 18)
+			makeItem('Dow drops 800 points on Trump tariff fears and AI scare trade', 'Yahoo Finance', 'https://finance.yahoo.com/news/live/stock-market-today-dow-drops-800-points-as-sp-500-nasdaq-slide-on-trump-tariff-fears-ai-scare-trade-210027026.html', 2),
+			makeItem('IBM stock sinks 13% after Anthropic launches AI consulting automation tool', 'Yahoo Finance', 'https://finance.yahoo.com/news/live/stock-market-today-dow-drops-800-points-as-sp-500-nasdaq-slide-on-trump-tariff-fears-ai-scare-trade-210027026.html', 6),
+			makeItem('Trump announces new 15% global tariff under Section 122 after SCOTUS ruling', 'Tax Foundation', 'https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/', 10),
+			makeItem('Stocks drop on hot PPI data; core PPI +0.8% vs +0.3% expected', 'Motley Fool', 'https://www.fool.com/investing/2026/02/26/wall-street-stock-market-return-2026-crush-average/', 14),
+			makeItem('Wall Street median forecast: S&P 500 to reach 7,650 by year-end', 'Motley Fool', 'https://www.fool.com/investing/2026/02/26/wall-street-stock-market-return-2026-crush-average/', 20)
 		],
 		gov: [
-			makeItem('Ethereum Layer 2 ecosystems driving next wave of on-chain governance', 'CoinDesk', 'https://www.coindesk.com/', 5),
-			makeItem('DAOs managing over $25B in treasury assets across major protocols', 'DefiLlama', 'https://defillama.com/', 10),
-			makeItem('Optimism Collective expands retroactive public goods funding program', 'The Block', 'https://www.theblock.co/', 15),
-			makeItem('MakerDAO rebrands governance structure under Sky Protocol framework', 'CoinDesk', 'https://www.coindesk.com/', 20),
-			makeItem('ENS DAO passes proposal for cross-chain identity resolution', 'Decrypt', 'https://decrypt.co/', 24)
+			makeItem('Bitcoin falls to ~$65K on tariff shock and Middle East escalation', 'CNBC', 'https://www.cnbc.com/2026/02/23/bitcoin-falls-to-nearly-64000-as-2026-crypto-woes-continue-.html', 3),
+			makeItem('SOL gains 4.5% to $84.74 as geopolitical selloff eases; down 17% on month', 'dMarket Forces', 'https://dmarketforces.com/sol-gains-4-5-as-geopolitical-selloffs-ease/', 8),
+			makeItem('Solana Alpenglow consensus upgrade targeting sub-second finality, Q1 mainnet', 'CoinDesk', 'https://www.coindesk.com/tech/2026/01/03/ethereum-and-solana-set-the-stage-for-2026-s-defi-reboot', 12),
+			makeItem('Crypto market funding drops 19.3% in February 2026 to $864M', 'CoinDesk', 'https://www.coindesk.com/tech/2026/01/03/ethereum-and-solana-set-the-stage-for-2026-s-defi-reboot', 18),
+			makeItem('Flash crash: single sell order triggers 30% drop on decentralized perp exchange', 'CoinDesk', 'https://www.coindesk.com/tech/2026/01/03/ethereum-and-solana-set-the-stage-for-2026-s-defi-reboot', 22)
 		],
 		ai: [
-			makeItem('Agentic AI moves from demo to production in 2026 — MCP protocol adoption surges', 'TechCrunch', 'https://techcrunch.com/2026/01/02/in-2026-ai-will-move-from-hype-to-pragmatism/', 2),
-			makeItem('AI entering scientific discovery — physics, chemistry, biology research', 'MIT Tech Review', 'https://www.technologyreview.com/2026/01/05/whats-next-for-ai-in-2026/', 6),
-			makeItem('New White House National Cyber Strategy emphasizes AI-driven defense', 'Cybersecurity Dive', 'https://www.cybersecuritydive.com/news/5-cybersecurity-trends-2026/', 10),
-			makeItem('AI now central to both attack and defense in cybersecurity arms race', 'The Hacker News', 'https://thehackernews.com/2026/02/cybersecurity-tech-predictions-for-2026.html', 14),
-			makeItem('CISA director seat still unfilled; NSA/CYBERCOM under acting leadership', 'Federal News Network', 'https://federalnewsnetwork.com/cybersecurity/2026/01/five-things-to-watch/', 20)
+			makeItem('Trump bans Anthropic from US government; Pentagon calls it "supply chain risk"', 'NPR', 'https://www.npr.org/2026/02/27/nx-s1-5729118/trump-anthropic-pentagon-openai-ai-weapons-ban', 2),
+			makeItem('OpenAI signs Pentagon deal for classified networks hours after Anthropic ban', 'Al Jazeera', 'https://www.aljazeera.com/news/2026/2/28/openai-strikes-deal-with-pentagon-to-use-tech-in-classified-network', 4),
+			makeItem('200+ employees at Google and OpenAI back Anthropic stance on military AI limits', 'TechCrunch', 'https://techcrunch.com/2026/02/27/employees-at-google-and-openai-support-anthropics-pentagon-stand-in-open-letter/', 8),
+			makeItem('Anthropic launches AI tool to automate consulting analysis, IBM drops 13%', 'Yahoo Finance', 'https://finance.yahoo.com/news/live/stock-market-today-dow-drops-800-points-as-sp-500-nasdaq-slide-on-trump-tariff-fears-ai-scare-trade-210027026.html', 14),
+			makeItem('NASA Perseverance rover navigates Mars using AI-planned routes for first time', 'NPR', 'https://www.npr.org/2026/02/27/nx-s1-5729118/trump-anthropic-pentagon-openai-ai-weapons-ban', 20)
 		],
 		intel: [
-			makeItem('Network state movement gains institutional attention at Munich Security Conference', 'Euronews', 'https://www.euronews.com/my-europe/2026/02/13/munich-security-conference-2026/', 4),
-			makeItem('Prospera Honduras charter city reports 300% growth in resident applications', 'Charter Cities Institute', 'https://www.chartercitiesinstitute.org/', 10),
-			makeItem('Longevity biotech sector raises $4.2B in Q1 2026, led by Altos Labs expansion', 'STAT News', 'https://www.statnews.com/', 14),
-			makeItem('Quadratic funding experiments scale to city-level budgets in Taiwan', 'RadicalxChange', 'https://www.radicalxchange.org/', 18),
-			makeItem('Popup city model proliferates — 12 new temporary communities announced for 2026', 'CoinDesk', 'https://www.coindesk.com/', 22)
+			makeItem('Praxis reaches 151K citizens from 80 countries; targets non-US city location', 'Praxis Nation', 'https://www.praxisnation.com/news/financing-announcement-10-24', 4),
+			makeItem('Prospera vs Honduras: $11B arbitration claim equals 31% of Honduras GDP', 'Liberation News', 'https://liberationnews.org/honduras-prospera-investment-colony/', 10),
+			makeItem('Scientists begin first human trials of DNA repair therapies targeting aging', 'yourNEWS', 'https://yournews.com/2026/02/28/6563273/scientists-are-testing-dna-repair-therapies-in-humans-what/', 14),
+			makeItem('Partial epigenetic reprogramming therapy ER-100 entering human clinical trials', 'Longevity Technology', 'https://longevity.technology/news/ais-role-in-the-next-era-of-longevity-biotech/', 18),
+			makeItem('VitaDAO governance forum: longevity network state discussion gains traction', 'VitaDAO', 'https://gov.vitadao.com/t/longevity-network-state-x-praxis-prospera-et-al/982', 22)
 		]
 	};
 

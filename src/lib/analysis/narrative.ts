@@ -76,98 +76,98 @@ function getFallbackNarratives(): NarrativeResults {
 	return {
 		emergingFringe: [
 			{
-				id: 'transatlantic-rupture',
-				name: 'Transatlantic Rupture Accelerating',
+				id: 'iran-regime-collapse',
+				name: 'Iranian Regime Collapse Narrative',
 				category: 'Geopolitics',
 				severity: 'high',
-				count: 12,
+				count: 16,
+				fringeCount: 5,
+				mainstreamCount: 0,
+				sources: ['X/Twitter', 'Telegram channels', 'Iranian diaspora media'],
+				headlines: [],
+				keywords: ['regime change', 'Khamenei', 'revolution', 'free Iran'],
+				status: 'viral'
+			},
+			{
+				id: 'ai-arms-race',
+				name: 'AI Military Arms Race Accelerating',
+				category: 'Tech',
+				severity: 'high',
+				count: 9,
 				fringeCount: 3,
 				mainstreamCount: 0,
-				sources: ['Munich Security Conf', 'CFR', 'Chatham House'],
+				sources: ['Defense One', 'War on the Rocks', 'TechCrunch'],
 				headlines: [],
-				keywords: ['transatlantic', 'rupture', 'strategic autonomy'],
+				keywords: ['AI weapons', 'autonomous', 'Pentagon', 'military AI'],
 				status: 'spreading'
 			},
 			{
-				id: 'water-conflicts',
-				name: 'Water Resource Conflicts Escalating',
-				category: 'Resources',
-				severity: 'medium',
-				count: 6,
-				fringeCount: 4,
-				mainstreamCount: 0,
-				sources: ['CIDOB', 'Stimson Center', 'Chatham House'],
-				headlines: [],
-				keywords: ['water', 'indus', 'nile', 'dam'],
-				status: 'emerging'
-			},
-			{
-				id: 'institutional-vacuums',
-				name: 'US Institutional Leadership Vacuums',
+				id: 'constitutional-crisis',
+				name: 'Constitutional Authority Erosion',
 				category: 'Governance',
 				severity: 'medium',
-				count: 5,
+				count: 7,
 				fringeCount: 2,
 				mainstreamCount: 0,
-				sources: ['Federal News Network', 'Lawfare', 'ProPublica'],
+				sources: ['Lawfare', 'SCOTUSblog', 'ProPublica'],
 				headlines: [],
-				keywords: ['CISA', 'acting', 'unfilled', 'leadership'],
-				status: 'emerging'
+				keywords: ['SCOTUS', 'IEEPA', 'war powers', 'executive overreach'],
+				status: 'spreading'
 			},
 			{
-				id: 'digital-provenance',
-				name: 'Digital Provenance as Security Layer',
-				category: 'Tech',
+				id: 'longevity-network-state',
+				name: 'Longevity Network State Movement',
+				category: 'Frontier',
 				severity: 'low',
 				count: 4,
-				fringeCount: 2,
+				fringeCount: 3,
 				mainstreamCount: 0,
-				sources: ['Reuters Institute', 'WEF', 'Dark Reading'],
+				sources: ['VitaDAO', 'Longevity Technology', 'Praxis Nation'],
 				headlines: [],
-				keywords: ['deepfake', 'provenance', 'verification'],
+				keywords: ['longevity', 'network state', 'epigenetic', 'VitaDAO'],
 				status: 'emerging'
 			}
 		],
 		fringeToMainstream: [
 			{
-				id: 'doge-accountability',
-				name: 'DOGE Savings Claims vs Reality',
-				category: 'Politics',
+				id: 'ai-ethics-military',
+				name: 'AI Ethics vs Military Use Debate',
+				category: 'Tech',
 				severity: 'high',
-				count: 9,
-				fringeCount: 3,
-				mainstreamCount: 5,
-				sources: ['Washington Times', 'CBS News', 'ProPublica', 'NYT'],
+				count: 12,
+				fringeCount: 4,
+				mainstreamCount: 7,
+				sources: ['TechCrunch', 'NPR', 'Al Jazeera', 'Bloomberg', 'employee letters'],
 				headlines: [],
-				keywords: ['DOGE', 'savings', 'disruption', 'Musk'],
+				keywords: ['Anthropic', 'military', 'ethics', 'Pentagon ban'],
 				status: 'crossing',
-				crossoverLevel: 0.72
+				crossoverLevel: 0.78
 			},
 			{
-				id: 'ai-agentic',
-				name: 'Agentic AI Entering Production',
-				category: 'Tech',
-				severity: 'low',
-				count: 7,
+				id: 'tariff-constitutional',
+				name: 'Tariff Power as Constitutional Question',
+				category: 'Politics',
+				severity: 'medium',
+				count: 8,
 				fringeCount: 2,
-				mainstreamCount: 4,
-				sources: ['TechCrunch', 'MIT Tech Review', 'Bloomberg'],
+				mainstreamCount: 5,
+				sources: ['Tax Foundation', 'SCOTUSblog', 'WSJ', 'NYT'],
 				headlines: [],
-				keywords: ['agentic', 'MCP', 'autonomous', 'agent'],
+				keywords: ['Section 122', 'IEEPA', 'SCOTUS', 'tariff authority'],
 				status: 'crossing',
-				crossoverLevel: 0.58
+				crossoverLevel: 0.63
 			}
 		],
 		narrativeWatch: [
-			{ id: 'zelensky-blame', name: 'Zelensky Blame Frame', category: 'Conflict', severity: 'medium', count: 8, fringeCount: 0, mainstreamCount: 0, sources: ['Fox News', 'The Hill'], headlines: [], keywords: ['Zelensky', 'delay', 'obstacle'] },
-			{ id: 'china-tech-self-reliance', name: 'China Tech Self-Reliance', category: 'Tech', severity: 'medium', count: 6, fringeCount: 0, mainstreamCount: 0, sources: ['CIDOB', 'FT'], headlines: [], keywords: ['semiconductor', 'five-year plan'] },
-			{ id: 'iran-deal-or-force', name: 'Iran Deal or Force', category: 'Conflict', severity: 'high', count: 5, fringeCount: 0, mainstreamCount: 0, sources: ['CBS', 'Reuters'], headlines: [], keywords: ['Iran', 'nuclear', 'deal'] },
-			{ id: 'ai-scientific-discovery', name: 'AI in Scientific Discovery', category: 'Tech', severity: 'low', count: 4, fringeCount: 0, mainstreamCount: 0, sources: ['MIT', 'Nature'], headlines: [], keywords: ['AI', 'research', 'discovery'] },
-			{ id: 'sterling-weakness', name: 'Sterling Weakness Signal', category: 'Finance', severity: 'medium', count: 3, fringeCount: 0, mainstreamCount: 0, sources: ['S&P Global', 'FT'], headlines: [], keywords: ['sterling', 'currency', 'G10'] },
-			{ id: 'ransomware-evolution', name: 'Targeted Ransomware Shift', category: 'Security', severity: 'high', count: 3, fringeCount: 0, mainstreamCount: 0, sources: ['Dark Reading', 'WEF'], headlines: [], keywords: ['ransomware', 'operational', 'disruption'] }
+			{ id: 'iran-ww3-fears', name: 'World War III Fears', category: 'Conflict', severity: 'high', count: 11, fringeCount: 0, mainstreamCount: 0, sources: ['X/Twitter', 'Reddit', 'Al Jazeera'], headlines: [], keywords: ['WW3', 'world war', 'escalation'] },
+			{ id: 'oil-shock', name: 'Oil Price Shock Narrative', category: 'Finance', severity: 'high', count: 7, fringeCount: 0, mainstreamCount: 0, sources: ['Bloomberg', 'CNBC'], headlines: [], keywords: ['oil', 'Strait of Hormuz', 'energy crisis'] },
+			{ id: 'ai-job-displacement', name: 'AI Consulting Job Displacement', category: 'Tech', severity: 'medium', count: 6, fringeCount: 0, mainstreamCount: 0, sources: ['Yahoo Finance', 'Bloomberg'], headlines: [], keywords: ['IBM', 'consulting', 'automation', 'job loss'] },
+			{ id: 'crypto-safe-haven', name: 'Crypto as Geopolitical Safe Haven', category: 'Finance', severity: 'medium', count: 5, fringeCount: 0, mainstreamCount: 0, sources: ['CoinDesk', 'CNBC'], headlines: [], keywords: ['bitcoin', 'safe haven', 'geopolitical risk'] },
+			{ id: 'popup-city-growth', name: 'Popup City Movement Scaling', category: 'Frontier', severity: 'low', count: 4, fringeCount: 0, mainstreamCount: 0, sources: ['Praxis Nation', 'CoinDesk'], headlines: [], keywords: ['Praxis', 'charter city', 'popup city'] },
+			{ id: 'middle-east-flights', name: 'Aviation Disruption Cascading', category: 'Logistics', severity: 'medium', count: 3, fringeCount: 0, mainstreamCount: 0, sources: ['Times of Israel', 'Reuters'], headlines: [], keywords: ['flights canceled', 'airspace', 'Middle East'] }
 		],
 		disinfoSignals: [
-			{ id: 'doge-inflated-claims', name: 'Inflated DOGE Savings Numbers', category: 'Politics', severity: 'high', count: 6, fringeCount: 0, mainstreamCount: 0, sources: ['X/Twitter', 'Conservative media'], headlines: [], keywords: ['$160 billion', 'DOGE', 'savings'] }
+			{ id: 'iran-casualty-claims', name: 'Conflicting Iran Casualty Figures', category: 'Conflict', severity: 'high', count: 8, fringeCount: 0, mainstreamCount: 0, sources: ['Iranian state media', 'X/Twitter', 'Telegram'], headlines: [], keywords: ['casualties', 'civilian', 'damage assessment'] }
 		]
 	};
 }
