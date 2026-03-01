@@ -1,5 +1,5 @@
 /**
- * Onboarding presets for first-time users
+ * Onboarding presets
  */
 
 import type { PanelId } from './panels';
@@ -13,67 +13,79 @@ export interface Preset {
 }
 
 export const PRESETS: Record<string, Preset> = {
-	'news-junkie': {
-		id: 'news-junkie',
-		name: 'News Junkie',
-		icon: '📰',
-		description: 'Stay on top of breaking news across politics, tech, and finance',
-		panels: ['politics', 'tech', 'finance', 'gov', 'ai', 'mainchar', 'map']
-	},
-	trader: {
-		id: 'trader',
-		name: 'Trader',
-		icon: '📈',
-		description: 'Market-focused dashboard with stocks, crypto, and commodities',
+	frontier: {
+		id: 'frontier',
+		name: 'Frontier Observer',
+		icon: '///',
+		description: 'AI, crypto, governance, network states — the full frontier stack',
 		panels: [
-			'markets',
-			'heatmap',
-			'commodities',
+			'map',
+			'ai',
+			'finance',
+			'gov',
 			'crypto',
 			'polymarket',
-			'whales',
-			'printer',
+			'networkstates',
+			'correlation',
+			'narrative',
+			'intel',
+			'tech',
+			'politics'
+		]
+	},
+	cryptonative: {
+		id: 'cryptonative',
+		name: 'Crypto Native',
+		icon: 'ETH',
+		description: 'Markets, DeFi, whale movements, Ethereum ecosystem',
+		panels: [
+			'crypto',
 			'finance',
+			'gov',
+			'markets',
+			'whales',
+			'polymarket',
+			'heatmap',
+			'commodities',
+			'printer',
 			'map'
 		]
 	},
 	geopolitics: {
 		id: 'geopolitics',
 		name: 'Geopolitics Watcher',
-		icon: '🌍',
-		description: 'Global situation awareness and regional hotspots',
+		icon: 'GEO',
+		description: 'Global situation awareness, conflicts, and power shifts',
 		panels: [
 			'map',
 			'intel',
 			'leaders',
 			'politics',
-			'gov',
-			'venezuela',
-			'greenland',
-			'iran',
+			'networkstates',
 			'correlation',
-			'narrative'
+			'narrative',
+			'mainchar'
 		]
 	},
-	intel: {
-		id: 'intel',
-		name: 'Intelligence Analyst',
-		icon: '🔍',
-		description: 'Deep analysis, pattern detection, and narrative tracking',
-		panels: ['map', 'intel', 'leaders', 'correlation', 'narrative', 'mainchar', 'politics']
+	airesearcher: {
+		id: 'airesearcher',
+		name: 'AI Researcher',
+		icon: 'AGI',
+		description: 'AI frontier, governance, alignment, and tech industry',
+		panels: ['ai', 'aigovernance', 'tech', 'correlation', 'narrative', 'mainchar', 'polymarket']
 	},
 	minimal: {
 		id: 'minimal',
 		name: 'Minimal',
-		icon: '⚡',
-		description: 'Just the essentials - map, news, and markets',
-		panels: ['map', 'politics', 'markets']
+		icon: '---',
+		description: 'Just the essentials — map, headlines, prices',
+		panels: ['map', 'politics', 'crypto', 'ai']
 	},
 	everything: {
 		id: 'everything',
 		name: 'Everything',
-		icon: '🎛️',
-		description: 'Kitchen sink - all panels enabled',
+		icon: 'ALL',
+		description: 'All panels enabled',
 		panels: [
 			'map',
 			'politics',
@@ -89,12 +101,10 @@ export const PRESETS: Record<string, Preset> = {
 			'whales',
 			'mainchar',
 			'printer',
-			'contracts',
 			'ai',
-			'layoffs',
-			'venezuela',
-			'greenland',
-			'iran',
+			'networkstates',
+			'aigovernance',
+			'etheco',
 			'leaders',
 			'intel',
 			'correlation',
@@ -104,10 +114,10 @@ export const PRESETS: Record<string, Preset> = {
 };
 
 export const PRESET_ORDER = [
-	'news-junkie',
-	'trader',
+	'frontier',
+	'cryptonative',
 	'geopolitics',
-	'intel',
+	'airesearcher',
 	'minimal',
 	'everything'
 ];

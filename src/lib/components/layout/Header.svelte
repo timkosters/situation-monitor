@@ -16,7 +16,7 @@
 
 <header class="header">
 	<div class="header-left">
-		<h1 class="logo">SITUATION MONITOR</h1>
+		<h1 class="logo"><span class="logo-prefix">R2</span> SITUATION MONITOR</h1>
 	</div>
 
 	<div class="header-center">
@@ -66,6 +66,11 @@
 		display: flex;
 		align-items: baseline;
 		gap: 0.5rem;
+	}
+
+	.logo :global(.logo-prefix) {
+		color: var(--green);
+		font-weight: 800;
 	}
 
 	.header-center {

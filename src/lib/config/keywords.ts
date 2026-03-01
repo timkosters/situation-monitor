@@ -1,5 +1,6 @@
 /**
  * Keyword configuration for alerts and categorization
+ * Tuned for: governance, AI, crypto, network states, geopolitics
  */
 
 export const ALERT_KEYWORDS = [
@@ -10,71 +11,77 @@ export const ALERT_KEYWORDS = [
 	'sanctions',
 	'missile',
 	'attack',
-	'troops',
 	'conflict',
-	'strike',
-	'bomb',
-	'casualties',
-	'ceasefire',
-	'treaty',
-	'nato',
 	'coup',
-	'martial law',
 	'emergency',
-	'assassination',
-	'terrorist',
-	'hostage',
-	'evacuation'
+	'hack',
+	'exploit',
+	'rug pull',
+	'depeg',
+	'crash',
+	'sec enforcement',
+	'ban crypto',
+	'agi',
+	'superintelligence',
+	'existential risk',
+	'alignment failure',
+	'network state',
+	'charter city',
+	'special economic zone'
 ] as const;
 
 export type AlertKeyword = (typeof ALERT_KEYWORDS)[number];
 
 export const REGION_KEYWORDS: Record<string, string[]> = {
 	EUROPE: [
-		'nato',
 		'eu',
 		'european',
 		'ukraine',
 		'russia',
 		'germany',
+		'berlin',
 		'france',
 		'uk',
 		'britain',
-		'poland'
+		'switzerland',
+		'zug',
+		'liechtenstein',
+		'estonia'
 	],
 	MENA: [
 		'iran',
 		'israel',
 		'saudi',
-		'syria',
-		'iraq',
+		'dubai',
+		'uae',
+		'qatar',
+		'bahrain',
 		'gaza',
-		'lebanon',
-		'yemen',
-		'houthi',
-		'middle east'
+		'lebanon'
 	],
 	APAC: [
 		'china',
 		'taiwan',
 		'japan',
 		'korea',
-		'indo-pacific',
-		'south china sea',
-		'asean',
-		'philippines'
+		'singapore',
+		'hong kong',
+		'india',
+		'bhutan',
+		'indonesia',
+		'thailand'
 	],
-	AMERICAS: ['us', 'america', 'canada', 'mexico', 'brazil', 'venezuela', 'latin'],
-	AFRICA: ['africa', 'sahel', 'niger', 'sudan', 'ethiopia', 'somalia']
+	AMERICAS: ['us', 'america', 'canada', 'brazil', 'argentina', 'patagonia', 'colorado', 'california', 'wyoming'],
+	AFRICA: ['africa', 'kenya', 'nigeria', 'ethiopia', 'tanzania', 'zanzibar', 'prospera', 'honduras']
 };
 
 export const TOPIC_KEYWORDS: Record<string, string[]> = {
-	CYBER: ['cyber', 'hack', 'ransomware', 'malware', 'breach', 'apt', 'vulnerability'],
-	NUCLEAR: ['nuclear', 'icbm', 'warhead', 'nonproliferation', 'uranium', 'plutonium'],
-	CONFLICT: ['war', 'military', 'troops', 'invasion', 'strike', 'missile', 'combat', 'offensive'],
-	INTEL: ['intelligence', 'espionage', 'spy', 'cia', 'mossad', 'fsb', 'covert'],
-	DEFENSE: ['pentagon', 'dod', 'defense', 'military', 'army', 'navy', 'air force'],
-	DIPLO: ['diplomat', 'embassy', 'treaty', 'sanctions', 'talks', 'summit', 'bilateral']
+	CRYPTO: ['ethereum', 'bitcoin', 'defi', 'dao', 'nft', 'layer 2', 'rollup', 'staking', 'validator', 'token', 'airdrop', 'protocol'],
+	AI: ['gpt', 'llm', 'transformer', 'anthropic', 'openai', 'deepmind', 'alignment', 'agi', 'compute', 'inference', 'training', 'frontier model'],
+	GOVERNANCE: ['governance', 'dao', 'quadratic', 'voting', 'delegation', 'proposal', 'constitution', 'charter', 'legitimacy', 'coordination'],
+	NETWORK_STATES: ['network state', 'popup city', 'popup village', 'zuzalu', 'edge city', 'edge esmeralda', 'charter city', 'special economic zone', 'seasteading', 'free city', 'startup society'],
+	SCIENCE: ['longevity', 'biotech', 'neurotech', 'consciousness', 'psychedelics', 'desci', 'open science', 'replication crisis'],
+	FUNDING: ['grant', 'retroactive', 'public goods', 'quadratic funding', 'gitcoin', 'optimism', 'hypercerts', 'impact certificate']
 };
 
 /**

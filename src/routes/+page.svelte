@@ -217,8 +217,8 @@
 </script>
 
 <svelte:head>
-	<title>Situation Monitor</title>
-	<meta name="description" content="Real-time global situation monitoring dashboard" />
+	<title>R2 Situation Monitor</title>
+	<meta name="description" content="Real-time frontier monitoring — AI, crypto, governance, network states" />
 </svelte:head>
 
 <div class="app">
@@ -248,19 +248,19 @@
 
 			{#if isPanelVisible('finance')}
 				<div class="panel-slot">
-					<NewsPanel category="finance" panelId="finance" title="Finance" />
+					<NewsPanel category="finance" panelId="finance" title="Crypto & DeFi" />
 				</div>
 			{/if}
 
 			{#if isPanelVisible('gov')}
 				<div class="panel-slot">
-					<NewsPanel category="gov" panelId="gov" title="Government" />
+					<NewsPanel category="gov" panelId="gov" title="Ethereum & Web3" />
 				</div>
 			{/if}
 
 			{#if isPanelVisible('ai')}
 				<div class="panel-slot">
-					<NewsPanel category="ai" panelId="ai" title="AI" />
+					<NewsPanel category="ai" panelId="ai" title="AI Frontier" />
 				</div>
 			{/if}
 
@@ -330,67 +330,78 @@
 			{/if}
 
 			<!-- Situation Panels -->
-			{#if isPanelVisible('venezuela')}
+			{#if isPanelVisible('networkstates')}
 				<div class="panel-slot">
 					<SituationPanel
-						panelId="venezuela"
+						panelId="networkstates"
 						config={{
-							title: 'Venezuela Watch',
-							subtitle: 'Humanitarian crisis monitoring',
-							criticalKeywords: ['maduro', 'caracas', 'venezuela', 'guaido']
+							title: 'Network States Watch',
+							subtitle: 'Popup cities, charter cities, startup societies',
+							criticalKeywords: ['network state', 'charter city', 'zuzalu', 'edge city', 'popup city', 'prospera', 'special economic zone', 'seasteading']
 						}}
 						news={$allNewsItems.filter(
-							(n) =>
-								n.title.toLowerCase().includes('venezuela') ||
-								n.title.toLowerCase().includes('maduro')
+							(n) => {
+								const t = n.title.toLowerCase();
+								return t.includes('network state') ||
+									t.includes('charter city') ||
+									t.includes('zuzalu') ||
+									t.includes('popup') ||
+									t.includes('prospera') ||
+									t.includes('special economic zone') ||
+									t.includes('startup societ');
+							}
 						)}
 					/>
 				</div>
 			{/if}
 
-			{#if isPanelVisible('greenland')}
+			{#if isPanelVisible('aigovernance')}
 				<div class="panel-slot">
 					<SituationPanel
-						panelId="greenland"
+						panelId="aigovernance"
 						config={{
-							title: 'Greenland Watch',
-							subtitle: 'Arctic geopolitics monitoring',
-							criticalKeywords: ['greenland', 'arctic', 'nuuk', 'denmark']
+							title: 'AI Governance',
+							subtitle: 'Regulation, alignment, safety, and policy',
+							criticalKeywords: ['ai regulation', 'alignment', 'ai safety', 'ai act', 'agi', 'superintelligence', 'existential risk', 'pause ai']
 						}}
 						news={$allNewsItems.filter(
-							(n) =>
-								n.title.toLowerCase().includes('greenland') ||
-								n.title.toLowerCase().includes('arctic')
+							(n) => {
+								const t = n.title.toLowerCase();
+								return t.includes('ai regulat') ||
+									t.includes('ai safety') ||
+									t.includes('alignment') ||
+									t.includes('ai act') ||
+									t.includes('agi') ||
+									t.includes('superintelligen') ||
+									t.includes('ai governance') ||
+									t.includes('ai policy');
+							}
 						)}
 					/>
 				</div>
 			{/if}
 
-			{#if isPanelVisible('iran')}
+			{#if isPanelVisible('etheco')}
 				<div class="panel-slot">
 					<SituationPanel
-						panelId="iran"
+						panelId="etheco"
 						config={{
-							title: 'Iran Crisis',
-							subtitle: 'Revolution protests, regime instability & nuclear program',
-							criticalKeywords: [
-								'protest',
-								'uprising',
-								'revolution',
-								'crackdown',
-								'killed',
-								'nuclear',
-								'strike',
-								'attack',
-								'irgc',
-								'khamenei'
-							]
+							title: 'Ethereum Ecosystem',
+							subtitle: 'L2s, DeFi, governance, public goods funding',
+							criticalKeywords: ['ethereum', 'vitalik', 'layer 2', 'optimism', 'arbitrum', 'gitcoin', 'ens', 'eip']
 						}}
 						news={$allNewsItems.filter(
-							(n) =>
-								n.title.toLowerCase().includes('iran') ||
-								n.title.toLowerCase().includes('tehran') ||
-								n.title.toLowerCase().includes('irgc')
+							(n) => {
+								const t = n.title.toLowerCase();
+								return t.includes('ethereum') ||
+									t.includes('vitalik') ||
+									t.includes('layer 2') ||
+									t.includes('optimism') ||
+									t.includes('arbitrum') ||
+									t.includes('gitcoin') ||
+									t.includes('eip-') ||
+									t.includes('ens ');
+							}
 						)}
 					/>
 				</div>

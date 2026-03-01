@@ -4,19 +4,21 @@
 
 /* CSS Custom Properties for theming */
 :root {
-	--bg: #0a0a0a;
-	--surface: #141414;
-	--surface-hover: #1a1a1a;
-	--border: #2a2a2a;
-	--border-light: #3a3a3a;
-	--text: #e8e8e8;
-	--text-dim: #888;
-	--text-muted: #666;
-	--accent: #fff;
-	--red: #ff4444;
-	--green: #44ff88;
-	--yellow: #ffaa00;
-	--blue: #4488ff;
+	--bg: #050508;
+	--surface: #0d0d12;
+	--surface-hover: #14141c;
+	--border: #1e1e2a;
+	--border-light: #2e2e3e;
+	--text: #e0e0ec;
+	--text-dim: #7a7a8e;
+	--text-muted: #55556a;
+	--accent: #e0e0ff;
+	--red: #ff3b3b;
+	--green: #00ff7f;
+	--yellow: #ffc400;
+	--blue: #5577ff;
+	--purple: #9966ff;
+	--cyan: #00ddff;
 }
 
 /* Base styles */

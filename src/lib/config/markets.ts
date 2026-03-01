@@ -1,5 +1,5 @@
 /**
- * Market configuration - sectors, commodities, stocks
+ * Market configuration - crypto-heavy + key indices
  */
 
 export interface SectorConfig {
@@ -18,36 +18,32 @@ export const SECTORS: SectorConfig[] = [
 	{ symbol: 'XLF', name: 'Finance' },
 	{ symbol: 'XLE', name: 'Energy' },
 	{ symbol: 'XLV', name: 'Health' },
-	{ symbol: 'XLY', name: 'Consumer' },
-	{ symbol: 'XLI', name: 'Industrial' },
-	{ symbol: 'XLP', name: 'Staples' },
-	{ symbol: 'XLU', name: 'Utilities' },
-	{ symbol: 'XLB', name: 'Materials' },
-	{ symbol: 'XLRE', name: 'Real Est' },
-	{ symbol: 'XLC', name: 'Comms' },
-	{ symbol: 'SMH', name: 'Semis' }
+	{ symbol: 'SMH', name: 'Semis' },
+	{ symbol: 'ARKK', name: 'Innovation' }
 ];
 
 export const COMMODITIES: CommodityConfig[] = [
 	{ symbol: '^VIX', name: 'VIX', display: 'VIX' },
 	{ symbol: 'GC=F', name: 'Gold', display: 'GOLD' },
 	{ symbol: 'CL=F', name: 'Crude Oil', display: 'OIL' },
-	{ symbol: 'NG=F', name: 'Natural Gas', display: 'NATGAS' },
-	{ symbol: 'SI=F', name: 'Silver', display: 'SILVER' },
-	{ symbol: 'HG=F', name: 'Copper', display: 'COPPER' }
+	{ symbol: 'SI=F', name: 'Silver', display: 'SILVER' }
 ];
 
 // Major stock indices
 export const INDICES = [
-	{ symbol: '^DJI', name: 'Dow Jones', display: 'DOW' },
 	{ symbol: '^GSPC', name: 'S&P 500', display: 'S&P' },
 	{ symbol: '^IXIC', name: 'NASDAQ', display: 'NDQ' },
-	{ symbol: '^RUT', name: 'Russell 2000', display: 'RUT' }
+	{ symbol: '^DJI', name: 'Dow Jones', display: 'DOW' }
 ];
 
-// Crypto assets tracked
+// Crypto assets tracked - expanded for crypto focus
 export const CRYPTO = [
 	{ id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
 	{ id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
-	{ id: 'solana', symbol: 'SOL', name: 'Solana' }
+	{ id: 'solana', symbol: 'SOL', name: 'Solana' },
+	{ id: 'cosmos', symbol: 'ATOM', name: 'Cosmos' },
+	{ id: 'optimism', symbol: 'OP', name: 'Optimism' },
+	{ id: 'arbitrum', symbol: 'ARB', name: 'Arbitrum' },
+	{ id: 'worldcoin-wld', symbol: 'WLD', name: 'Worldcoin' },
+	{ id: 'safe', symbol: 'SAFE', name: 'Safe' }
 ];

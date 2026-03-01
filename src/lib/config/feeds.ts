@@ -1,5 +1,6 @@
 /**
  * RSS feed and news source configuration
+ * Tuned for: governance, AI, crypto, network states, geopolitics
  */
 
 import type { NewsCategory } from '$lib/types';
@@ -10,7 +11,7 @@ export interface FeedSource {
 }
 
 export interface IntelSource extends FeedSource {
-	type: 'think-tank' | 'defense' | 'regional' | 'osint' | 'govt' | 'cyber';
+	type: 'think-tank' | 'defense' | 'regional' | 'osint' | 'govt' | 'cyber' | 'governance' | 'crypto';
 	topics: string[];
 	region?: string;
 }
@@ -18,45 +19,87 @@ export interface IntelSource extends FeedSource {
 export const FEEDS: Record<NewsCategory, FeedSource[]> = {
 	politics: [
 		{ name: 'BBC World', url: 'https://feeds.bbci.co.uk/news/world/rss.xml' },
-		{ name: 'NPR News', url: 'https://feeds.npr.org/1001/rss.xml' },
 		{ name: 'Guardian World', url: 'https://www.theguardian.com/world/rss' },
-		{ name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' }
+		{ name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
+		{ name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' }
 	],
 	tech: [
 		{ name: 'Hacker News', url: 'https://hnrss.org/frontpage' },
 		{ name: 'Ars Technica', url: 'https://feeds.arstechnica.com/arstechnica/technology-lab' },
-		{ name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' },
 		{ name: 'MIT Tech Review', url: 'https://www.technologyreview.com/feed/' },
-		{ name: 'ArXiv AI', url: 'https://rss.arxiv.org/rss/cs.AI' },
-		{ name: 'OpenAI Blog', url: 'https://openai.com/news/rss.xml' }
+		{ name: 'Wired', url: 'https://www.wired.com/feed/rss' }
 	],
 	finance: [
-		{ name: 'CNBC', url: 'https://www.cnbc.com/id/100003114/device/rss/rss.html' },
-		{ name: 'MarketWatch', url: 'https://feeds.marketwatch.com/marketwatch/topstories' },
-		{ name: 'Yahoo Finance', url: 'https://finance.yahoo.com/news/rssindex' },
-		{ name: 'BBC Business', url: 'https://feeds.bbci.co.uk/news/business/rss.xml' },
-		{ name: 'FT', url: 'https://www.ft.com/rss/home' }
+		{ name: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/' },
+		{ name: 'The Block', url: 'https://www.theblock.co/rss.xml' },
+		{ name: 'Decrypt', url: 'https://decrypt.co/feed' },
+		{ name: 'CoinTelegraph', url: 'https://cointelegraph.com/rss' },
+		{ name: 'DeFi Pulse', url: 'https://defipulse.com/blog/feed/' }
 	],
 	gov: [
-		{ name: 'White House', url: 'https://www.whitehouse.gov/news/feed/' },
-		{ name: 'Federal Reserve', url: 'https://www.federalreserve.gov/feeds/press_all.xml' },
-		{ name: 'SEC Announcements', url: 'https://www.sec.gov/news/pressreleases.rss' },
-		{
-			name: 'DoD News',
-			url: 'https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10&ContentType=1&Site=945'
-		}
+		{ name: 'Ethereum Foundation', url: 'https://blog.ethereum.org/feed.xml' },
+		{ name: 'Vitalik Blog', url: 'https://vitalik.eth.limo/feed.xml' },
+		{ name: 'Placeholder VC', url: 'https://www.placeholder.vc/blog?format=rss' },
+		{ name: 'a16z Crypto', url: 'https://a16zcrypto.com/posts/rss/' }
 	],
 	ai: [
 		{ name: 'OpenAI Blog', url: 'https://openai.com/news/rss.xml' },
-		{ name: 'ArXiv AI', url: 'https://rss.arxiv.org/rss/cs.AI' }
+		{ name: 'ArXiv AI', url: 'https://rss.arxiv.org/rss/cs.AI' },
+		{ name: 'Anthropic', url: 'https://www.anthropic.com/feed.xml' },
+		{ name: 'DeepMind Blog', url: 'https://deepmind.google/blog/rss.xml' },
+		{ name: 'The Gradient', url: 'https://thegradient.pub/rss/' }
 	],
 	intel: [
-		{ name: 'CSIS', url: 'https://www.csis.org/analysis/feed' },
-		{ name: 'Brookings', url: 'https://www.brookings.edu/feed/' }
+		{ name: 'Palladium Mag', url: 'https://www.palladiummag.com/feed/' },
+		{ name: 'Works in Progress', url: 'https://worksinprogress.co/feed' },
+		{ name: 'Astral Codex Ten', url: 'https://www.astralcodexten.com/feed' },
+		{ name: 'Noahpinion', url: 'https://www.noahpinion.blog/feed' }
 	]
 };
 
 export const INTEL_SOURCES: IntelSource[] = [
+	{
+		name: 'Palladium Mag',
+		url: 'https://www.palladiummag.com/feed/',
+		type: 'governance',
+		topics: ['governance', 'institutions', 'civilization']
+	},
+	{
+		name: 'Works in Progress',
+		url: 'https://worksinprogress.co/feed',
+		type: 'governance',
+		topics: ['progress', 'institutions', 'policy']
+	},
+	{
+		name: 'Astral Codex Ten',
+		url: 'https://www.astralcodexten.com/feed',
+		type: 'governance',
+		topics: ['rationality', 'governance', 'prediction']
+	},
+	{
+		name: 'Noahpinion',
+		url: 'https://www.noahpinion.blog/feed',
+		type: 'governance',
+		topics: ['economics', 'geopolitics', 'tech']
+	},
+	{
+		name: 'CoinDesk',
+		url: 'https://www.coindesk.com/arc/outboundfeeds/rss/',
+		type: 'crypto',
+		topics: ['crypto', 'defi', 'regulation']
+	},
+	{
+		name: 'The Block',
+		url: 'https://www.theblock.co/rss.xml',
+		type: 'crypto',
+		topics: ['crypto', 'infrastructure']
+	},
+	{
+		name: 'Bellingcat',
+		url: 'https://www.bellingcat.com/feed/',
+		type: 'osint',
+		topics: ['investigation', 'osint']
+	},
 	{
 		name: 'CSIS',
 		url: 'https://www.csis.org/analysis/feed',
@@ -74,56 +117,6 @@ export const INTEL_SOURCES: IntelSource[] = [
 		url: 'https://www.cfr.org/rss.xml',
 		type: 'think-tank',
 		topics: ['foreign-policy']
-	},
-	{
-		name: 'Defense One',
-		url: 'https://www.defenseone.com/rss/all/',
-		type: 'defense',
-		topics: ['military', 'defense']
-	},
-	{
-		name: 'War on Rocks',
-		url: 'https://warontherocks.com/feed/',
-		type: 'defense',
-		topics: ['military', 'strategy']
-	},
-	{
-		name: 'Breaking Defense',
-		url: 'https://breakingdefense.com/feed/',
-		type: 'defense',
-		topics: ['military', 'defense']
-	},
-	{
-		name: 'The Drive War Zone',
-		url: 'https://www.thedrive.com/the-war-zone/feed',
-		type: 'defense',
-		topics: ['military']
-	},
-	{
-		name: 'The Diplomat',
-		url: 'https://thediplomat.com/feed/',
-		type: 'regional',
-		topics: ['asia-pacific'],
-		region: 'APAC'
-	},
-	{
-		name: 'Al-Monitor',
-		url: 'https://www.al-monitor.com/rss',
-		type: 'regional',
-		topics: ['middle-east'],
-		region: 'MENA'
-	},
-	{
-		name: 'Bellingcat',
-		url: 'https://www.bellingcat.com/feed/',
-		type: 'osint',
-		topics: ['investigation', 'osint']
-	},
-	{
-		name: 'CISA Alerts',
-		url: 'https://www.cisa.gov/uscert/ncas/alerts.xml',
-		type: 'cyber',
-		topics: ['cyber', 'security']
 	},
 	{
 		name: 'Krebs Security',

@@ -1,5 +1,6 @@
 /**
  * Analysis configuration - correlation topics, narrative patterns, source classification
+ * Tuned for: governance, AI, crypto, network states, geopolitics
  */
 
 export interface CorrelationTopic {
@@ -22,26 +23,44 @@ export interface SourceTypes {
 }
 
 export const CORRELATION_TOPICS: CorrelationTopic[] = [
+	// Crypto & DeFi
 	{
-		id: 'tariffs',
-		patterns: [/tariff/i, /trade war/i, /import tax/i, /customs duty/i],
-		category: 'Economy'
+		id: 'ethereum-ecosystem',
+		patterns: [/ethereum/i, /vitalik/i, /eip-/i, /layer\s*2/i, /rollup/i, /blob/i],
+		category: 'Crypto'
 	},
 	{
-		id: 'fed-rates',
-		patterns: [/federal reserve/i, /interest rate/i, /rate cut/i, /rate hike/i, /powell/i, /fomc/i],
-		category: 'Economy'
+		id: 'defi-regulation',
+		patterns: [/defi.*regulat/i, /sec.*crypto/i, /crypto.*ban/i, /stablecoin.*law/i, /mica/i],
+		category: 'Crypto'
 	},
 	{
-		id: 'inflation',
-		patterns: [/inflation/i, /cpi/i, /consumer price/i, /cost of living/i],
-		category: 'Economy'
+		id: 'bitcoin-macro',
+		patterns: [/bitcoin/i, /btc.*etf/i, /bitcoin.*treasury/i, /bitcoin.*reserve/i],
+		category: 'Crypto'
+	},
+	{
+		id: 'dao-governance',
+		patterns: [/\bdao\b/i, /on-chain.*governance/i, /token.*voting/i, /quadratic/i, /governance.*attack/i],
+		category: 'Governance'
+	},
+	// AI
+	{
+		id: 'ai-frontier',
+		patterns: [/\bgpt/i, /claude/i, /gemini.*ai/i, /frontier.*model/i, /\bllm\b/i, /foundation.*model/i],
+		category: 'AI'
 	},
 	{
 		id: 'ai-regulation',
-		patterns: [/ai regulation/i, /artificial intelligence.*law/i, /ai safety/i, /ai governance/i],
-		category: 'Tech'
+		patterns: [/ai regulation/i, /ai.*law/i, /ai safety/i, /ai governance/i, /ai act/i, /alignment/i],
+		category: 'AI'
 	},
+	{
+		id: 'ai-agents',
+		patterns: [/ai agent/i, /autonomous.*agent/i, /tool.*use/i, /agentic/i, /mcp.*server/i],
+		category: 'AI'
+	},
+	// Geopolitics
 	{
 		id: 'china-tensions',
 		patterns: [/china.*taiwan/i, /south china sea/i, /us.*china/i, /beijing.*washington/i],
@@ -57,133 +76,93 @@ export const CORRELATION_TOPICS: CorrelationTopic[] = [
 		patterns: [/gaza/i, /hamas/i, /netanyahu/i, /israel.*attack/i, /hostage/i],
 		category: 'Conflict'
 	},
+	// Network States & Governance
 	{
-		id: 'iran',
-		patterns: [/iran.*nuclear/i, /tehran/i, /ayatollah/i, /iranian.*strike/i],
-		category: 'Geopolitics'
+		id: 'network-states',
+		patterns: [/network state/i, /popup city/i, /charter city/i, /startup societ/i, /special economic zone/i, /zede/i],
+		category: 'Governance'
 	},
 	{
-		id: 'crypto',
-		patterns: [/bitcoin/i, /crypto.*regulation/i, /ethereum/i, /sec.*crypto/i],
-		category: 'Finance'
+		id: 'digital-democracy',
+		patterns: [/digital democracy/i, /e-residency/i, /digital identity/i, /quadratic voting/i, /liquid democracy/i],
+		category: 'Governance'
 	},
 	{
-		id: 'housing',
-		patterns: [/housing market/i, /mortgage rate/i, /home price/i, /real estate.*crash/i],
+		id: 'public-goods',
+		patterns: [/public goods/i, /retroactive.*funding/i, /gitcoin/i, /hypercert/i, /impact.*certificate/i, /quadratic funding/i],
+		category: 'Funding'
+	},
+	// Economy
+	{
+		id: 'fed-rates',
+		patterns: [/federal reserve/i, /interest rate/i, /rate cut/i, /rate hike/i, /powell/i, /fomc/i],
 		category: 'Economy'
 	},
 	{
-		id: 'layoffs',
-		patterns: [/layoff/i, /job cut/i, /workforce reduction/i, /downsizing/i],
-		category: 'Business'
-	},
-	{
-		id: 'bank-crisis',
-		patterns: [/bank.*fail/i, /banking crisis/i, /fdic/i, /bank run/i],
-		category: 'Finance'
-	},
-	{
-		id: 'election',
-		patterns: [/election/i, /polling/i, /campaign/i, /ballot/i, /voter/i],
-		category: 'Politics'
-	},
-	{
-		id: 'immigration',
-		patterns: [/immigration/i, /border.*crisis/i, /migrant/i, /deportation/i, /asylum/i],
-		category: 'Politics'
-	},
-	{
-		id: 'climate',
-		patterns: [/climate change/i, /wildfire/i, /hurricane/i, /extreme weather/i, /flood/i],
-		category: 'Environment'
-	},
-	{
-		id: 'pandemic',
-		patterns: [/pandemic/i, /outbreak/i, /virus.*spread/i, /who.*emergency/i, /bird flu/i],
-		category: 'Health'
-	},
-	{
-		id: 'nuclear',
-		patterns: [/nuclear.*threat/i, /nuclear weapon/i, /atomic/i, /icbm/i],
-		category: 'Security'
-	},
-	{
-		id: 'supply-chain',
-		patterns: [/supply chain/i, /shipping.*delay/i, /port.*congestion/i, /logistics.*crisis/i],
+		id: 'dollar-system',
+		patterns: [/dollar collapse/i, /dedollarization/i, /brics currency/i, /cbdc/i, /stablecoin/i],
 		category: 'Economy'
 	},
+	// Science & Longevity
 	{
-		id: 'big-tech',
-		patterns: [/antitrust.*tech/i, /google.*monopoly/i, /meta.*lawsuit/i, /apple.*doj/i],
-		category: 'Tech'
+		id: 'longevity',
+		patterns: [/longevity/i, /aging.*reverse/i, /lifespan/i, /senolytics/i, /rapamycin/i],
+		category: 'Science'
 	},
 	{
-		id: 'deepfake',
-		patterns: [/deepfake/i, /ai.*misinformation/i, /synthetic media/i],
-		category: 'Tech'
+		id: 'desci',
+		patterns: [/desci/i, /decentralized science/i, /open science/i, /ip-nft/i, /molecule.*dao/i],
+		category: 'Science'
+	},
+	{
+		id: 'psychedelics',
+		patterns: [/psychedelic/i, /psilocybin/i, /mdma.*therapy/i, /ketamine.*clinic/i, /consciousness/i],
+		category: 'Science'
 	}
 ];
 
 export const NARRATIVE_PATTERNS: NarrativePattern[] = [
 	{
-		id: 'deep-state',
-		keywords: ['deep state', 'shadow government', 'permanent state'],
-		category: 'Political',
-		severity: 'watch'
-	},
-	{
-		id: 'cbdc-control',
-		keywords: ['cbdc control', 'digital currency surveillance', 'social credit'],
-		category: 'Finance',
-		severity: 'watch'
-	},
-	{
-		id: 'wef-agenda',
-		keywords: ['great reset', 'wef agenda', 'world economic forum plot'],
-		category: 'Political',
-		severity: 'watch'
-	},
-	{
-		id: 'bio-weapon',
-		keywords: ['lab leak', 'bioweapon', 'gain of function'],
-		category: 'Health',
-		severity: 'emerging'
-	},
-	{
-		id: 'election-fraud',
-		keywords: ['election fraud', 'rigged election', 'stolen election', 'mail ballot fraud'],
-		category: 'Political',
-		severity: 'watch'
-	},
-	{
 		id: 'ai-doom',
-		keywords: ['ai doom', 'ai extinction', 'superintelligence risk', 'agi danger'],
-		category: 'Tech',
+		keywords: ['ai doom', 'ai extinction', 'superintelligence risk', 'agi danger', 'existential risk'],
+		category: 'AI',
 		severity: 'emerging'
 	},
 	{
 		id: 'ai-consciousness',
 		keywords: ['ai sentient', 'ai conscious', 'ai feelings', 'ai alive'],
-		category: 'Tech',
+		category: 'AI',
+		severity: 'emerging'
+	},
+	{
+		id: 'cbdc-surveillance',
+		keywords: ['cbdc control', 'digital currency surveillance', 'social credit', 'programmable money'],
+		category: 'Crypto',
+		severity: 'watch'
+	},
+	{
+		id: 'crypto-winter',
+		keywords: ['crypto dead', 'bitcoin crash', 'defi collapse', 'rug pull'],
+		category: 'Crypto',
+		severity: 'watch'
+	},
+	{
+		id: 'network-state-hype',
+		keywords: ['network state', 'balaji', 'cloud country', 'startup society'],
+		category: 'Governance',
+		severity: 'emerging'
+	},
+	{
+		id: 'governance-innovation',
+		keywords: ['quadratic voting', 'futarchy', 'prediction market governance', 'liquid democracy'],
+		category: 'Governance',
 		severity: 'emerging'
 	},
 	{
 		id: 'robot-replacement',
-		keywords: ['robots replacing', 'automation unemployment', 'job automation'],
+		keywords: ['robots replacing', 'automation unemployment', 'job automation', 'ai unemployment'],
 		category: 'Economy',
 		severity: 'spreading'
-	},
-	{
-		id: 'china-invasion',
-		keywords: ['china taiwan invasion', 'china war', 'south china sea conflict'],
-		category: 'Geopolitical',
-		severity: 'watch'
-	},
-	{
-		id: 'nato-expansion',
-		keywords: ['nato provocation', 'nato aggression', 'nato encirclement'],
-		category: 'Geopolitical',
-		severity: 'watch'
 	},
 	{
 		id: 'dollar-collapse',
@@ -192,34 +171,16 @@ export const NARRATIVE_PATTERNS: NarrativePattern[] = [
 		severity: 'spreading'
 	},
 	{
-		id: 'vaccine-injury',
-		keywords: ['vaccine injury', 'vaccine side effect', 'vaccine death', 'turbo cancer'],
-		category: 'Health',
-		severity: 'watch'
-	},
-	{
-		id: 'next-pandemic',
-		keywords: ['next pandemic', 'disease x', 'bird flu pandemic'],
-		category: 'Health',
+		id: 'longevity-escape',
+		keywords: ['longevity escape velocity', 'cure aging', 'immortality', 'reverse aging'],
+		category: 'Science',
 		severity: 'emerging'
 	},
 	{
-		id: 'depopulation',
-		keywords: ['depopulation agenda', 'fertility crisis', 'population control'],
-		category: 'Society',
-		severity: 'disinfo'
-	},
-	{
-		id: 'food-crisis',
-		keywords: ['food shortage', 'engineered famine', 'food supply attack'],
-		category: 'Economy',
+		id: 'ubi-momentum',
+		keywords: ['universal basic income', 'ubi pilot', 'ubi experiment', 'guaranteed income'],
+		category: 'Policy',
 		severity: 'emerging'
-	},
-	{
-		id: 'energy-war',
-		keywords: ['energy crisis manufactured', 'green agenda', 'energy shortage'],
-		category: 'Economy',
-		severity: 'spreading'
 	}
 ];
 
@@ -228,26 +189,22 @@ export const SOURCE_TYPES: SourceTypes = {
 		'zerohedge',
 		'infowars',
 		'naturalnews',
-		'gateway',
-		'breitbart',
-		'epoch',
-		'revolver',
-		'dailycaller'
+		'gateway'
 	],
-	alternative: ['substack', 'rumble', 'bitchute', 'telegram', 'gab', 'gettr', 'truth social'],
+	alternative: ['substack', 'mirror.xyz', 'farcaster', 'paragraph', 'telegram'],
 	mainstream: [
 		'reuters',
 		'ap news',
 		'bbc',
-		'cnn',
 		'nytimes',
 		'wsj',
-		'wapo',
 		'guardian',
-		'abc',
-		'nbc',
-		'cbs',
-		'fox'
+		'coindesk',
+		'the block',
+		'decrypt',
+		'techcrunch',
+		'wired',
+		'mit tech review'
 	]
 };
 
@@ -258,24 +215,24 @@ export interface PersonPattern {
 }
 
 export const PERSON_PATTERNS: PersonPattern[] = [
-	{ pattern: /\btrump\b/gi, name: 'Trump' },
-	{ pattern: /\bbiden\b/gi, name: 'Biden' },
-	{ pattern: /\belon\b|\bmusk\b/gi, name: 'Elon Musk' },
-	{ pattern: /\bputin\b/gi, name: 'Putin' },
-	{ pattern: /\bzelensky\b/gi, name: 'Zelensky' },
-	{ pattern: /\bxi\s*jinping\b|\bxi\b/gi, name: 'Xi Jinping' },
-	{ pattern: /\bnetanyahu\b/gi, name: 'Netanyahu' },
+	{ pattern: /\bvitalik\b/gi, name: 'Vitalik Buterin' },
 	{ pattern: /\bsam\s*altman\b/gi, name: 'Sam Altman' },
-	{ pattern: /\bmark\s*zuckerberg\b|\bzuckerberg\b/gi, name: 'Zuckerberg' },
-	{ pattern: /\bjeff\s*bezos\b|\bbezos\b/gi, name: 'Bezos' },
-	{ pattern: /\btim\s*cook\b/gi, name: 'Tim Cook' },
-	{ pattern: /\bsatya\s*nadella\b|\bnadella\b/gi, name: 'Satya Nadella' },
-	{ pattern: /\bsundar\s*pichai\b|\bpichai\b/gi, name: 'Sundar Pichai' },
-	{ pattern: /\bwarren\s*buffett\b|\bbuffett\b/gi, name: 'Warren Buffett' },
-	{ pattern: /\bjanet\s*yellen\b|\byellen\b/gi, name: 'Janet Yellen' },
-	{ pattern: /\bjerome\s*powell\b|\bpowell\b/gi, name: 'Jerome Powell' },
-	{ pattern: /\bkamala\s*harris\b|\bharris\b/gi, name: 'Kamala Harris' },
-	{ pattern: /\bnancy\s*pelosi\b|\bpelosi\b/gi, name: 'Nancy Pelosi' },
+	{ pattern: /\belon\b|\bmusk\b/gi, name: 'Elon Musk' },
+	{ pattern: /\bbalaji\b/gi, name: 'Balaji Srinivasan' },
+	{ pattern: /\bdario\s*amodei\b|\bamodei\b/gi, name: 'Dario Amodei' },
+	{ pattern: /\btrump\b/gi, name: 'Trump' },
+	{ pattern: /\bputin\b/gi, name: 'Putin' },
+	{ pattern: /\bxi\s*jinping\b/gi, name: 'Xi Jinping' },
 	{ pattern: /\bjensen\s*huang\b|\bhuang\b/gi, name: 'Jensen Huang' },
-	{ pattern: /\bdario\s*amodei\b|\bamodei\b/gi, name: 'Dario Amodei' }
+	{ pattern: /\bgary\s*gensler\b|\bgensler\b/gi, name: 'Gary Gensler' },
+	{ pattern: /\bchangpeng\b|\bcz\b.*binance/gi, name: 'CZ (Binance)' },
+	{ pattern: /\bbrian\s*armstrong\b/gi, name: 'Brian Armstrong' },
+	{ pattern: /\bzelensky\b/gi, name: 'Zelensky' },
+	{ pattern: /\bnetanyahu\b/gi, name: 'Netanyahu' },
+	{ pattern: /\bjerome\s*powell\b|\bpowell\b/gi, name: 'Jerome Powell' },
+	{ pattern: /\baudrey\s*tang\b/gi, name: 'Audrey Tang' },
+	{ pattern: /\bglen\s*weyl\b|\bweyl\b/gi, name: 'Glen Weyl' },
+	{ pattern: /\bzuckerberg\b/gi, name: 'Zuckerberg' },
+	{ pattern: /\bsundar\s*pichai\b|\bpichai\b/gi, name: 'Sundar Pichai' },
+	{ pattern: /\bdemis\s*hassabis\b|\bhassabis\b/gi, name: 'Demis Hassabis' }
 ];
