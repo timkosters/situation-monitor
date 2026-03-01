@@ -4,26 +4,28 @@
 
 /* CSS Custom Properties for theming */
 :root {
-	--bg: #050508;
-	--surface: #0d0d12;
-	--surface-hover: #14141c;
-	--border: #1e1e2a;
-	--border-light: #2e2e3e;
-	--text: #e0e0ec;
-	--text-dim: #7a7a8e;
-	--text-muted: #55556a;
-	--accent: #e0e0ff;
-	--red: #ff3b3b;
+	--bg: #030306;
+	--surface: #0a0a10;
+	--surface-hover: #10101a;
+	--border: #16162a;
+	--border-light: #22223a;
+	--text: #d8d8f0;
+	--text-dim: #6a6a88;
+	--text-muted: #44445a;
+	--accent: #c8c8ff;
+	--red: #ff2d2d;
 	--green: #00ff7f;
 	--yellow: #ffc400;
-	--blue: #5577ff;
-	--purple: #9966ff;
-	--cyan: #00ddff;
+	--blue: #4466ff;
+	--purple: #8855ff;
+	--cyan: #00ccee;
+	--glow-green: rgba(0, 255, 127, 0.15);
+	--glow-cyan: rgba(0, 204, 238, 0.1);
 }
 
 /* Base styles */
 html {
-	font-family: 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace;
+	font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Fira Code', monospace;
 	background-color: var(--bg);
 	color: var(--text);
 }
@@ -31,21 +33,69 @@ html {
 body {
 	margin: 0;
 	min-height: 100vh;
+	background:
+		radial-gradient(ellipse at 20% 50%, rgba(0, 255, 127, 0.02) 0%, transparent 60%),
+		radial-gradient(ellipse at 80% 20%, rgba(68, 102, 255, 0.02) 0%, transparent 60%),
+		var(--bg);
+}
+
+/* Scan line overlay */
+body::after {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 9999;
+	background: repeating-linear-gradient(
+		0deg,
+		transparent,
+		transparent 2px,
+		rgba(0, 0, 0, 0.03) 2px,
+		rgba(0, 0, 0, 0.03) 4px
+	);
+}
+
+/* Top accent bar */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	z-index: 10000;
+	background: linear-gradient(90deg,
+		var(--green) 0%,
+		var(--cyan) 25%,
+		var(--blue) 50%,
+		var(--purple) 75%,
+		var(--green) 100%
+	);
+	background-size: 200% 100%;
+	animation: gradient-slide 8s linear infinite;
+}
+
+@keyframes gradient-slide {
+	0% { background-position: 0% 0; }
+	100% { background-position: 200% 0; }
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-	width: 6px;
-	height: 6px;
+	width: 4px;
+	height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--surface);
+	background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
 	background: var(--border-light);
-	border-radius: 3px;
+	border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -64,11 +114,11 @@ a:hover {
 
 /* Focus styles for accessibility */
 :focus-visible {
-	outline: 2px solid var(--accent);
+	outline: 2px solid var(--green);
 	outline-offset: 2px;
 }
 
-/* Utility classes that are hard to do in Tailwind */
+/* Shimmer loading */
 .shimmer {
 	background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
 	background-size: 200% 100%;
@@ -76,15 +126,17 @@ a:hover {
 }
 
 @keyframes shimmer {
-	0% {
-		background-position: -200% 0;
-	}
-	100% {
-		background-position: 200% 0;
-	}
+	0% { background-position: -200% 0; }
+	100% { background-position: 200% 0; }
 }
 
-/* D3 Map styles - keeping here since they're complex */
+/* Pulse animation for live indicators */
+@keyframes pulse-glow {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.4; }
+}
+
+/* D3 Map styles */
 .map-container {
 	position: relative;
 	background: var(--surface);
@@ -100,7 +152,7 @@ a:hover {
 
 .country {
 	fill: var(--border);
-	stroke: var(--surface);
+	stroke: rgba(0, 255, 127, 0.05);
 	stroke-width: 0.5;
 	transition: fill 0.2s;
 }
@@ -124,11 +176,12 @@ a:hover {
 .hotspot-tooltip {
 	position: absolute;
 	background: var(--surface);
-	border: 1px solid var(--border);
+	border: 1px solid var(--green);
 	padding: 8px 12px;
 	border-radius: 4px;
 	font-size: 0.75rem;
 	pointer-events: none;
 	z-index: 100;
 	max-width: 300px;
+	box-shadow: 0 0 12px var(--glow-green);
 }

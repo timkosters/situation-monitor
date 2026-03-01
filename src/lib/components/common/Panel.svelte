@@ -46,6 +46,7 @@
 <div class="panel" class:draggable class:collapsed data-panel-id={id}>
 	<div class="panel-header">
 		<div class="panel-title-row">
+			<span class="panel-indicator"></span>
 			<h3 class="panel-title">{title}</h3>
 			{#if count !== null}
 				<span class="panel-count">{count}</span>
@@ -78,7 +79,10 @@
 		{#if error}
 			<div class="error-msg">{error}</div>
 		{:else if loading}
-			<div class="loading-msg">Loading...</div>
+			<div class="loading-msg">
+				<span class="loading-spinner"></span>
+				Scanning...
+			</div>
 		{:else}
 			{@render children()}
 		{/if}
@@ -89,10 +93,16 @@
 	.panel {
 		background: var(--surface);
 		border: 1px solid var(--border);
-		border-radius: 4px;
+		border-left: 2px solid var(--green);
+		border-radius: 0 3px 3px 0;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
+		transition: border-color 0.3s ease;
+	}
+
+	.panel:hover {
+		border-left-color: var(--cyan);
 	}
 
 	.panel.draggable {
@@ -107,8 +117,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0.5rem 0.75rem;
-		background: var(--surface);
+		padding: 0.45rem 0.75rem;
+		background: linear-gradient(90deg, rgba(0, 255, 127, 0.03) 0%, transparent 50%);
 		border-bottom: 1px solid var(--border);
 		min-height: 2rem;
 	}
@@ -116,63 +126,76 @@
 	.panel-title-row {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.4rem;
+	}
+
+	.panel-indicator {
+		width: 4px;
+		height: 4px;
+		background: var(--green);
+		border-radius: 50%;
+		opacity: 0.6;
 	}
 
 	.panel-title {
-		font-size: 0.65rem;
+		font-size: 0.6rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--text-secondary);
+		letter-spacing: 0.08em;
+		color: var(--text-dim);
 		margin: 0;
 	}
 
 	.panel-count {
-		font-size: 0.65rem;
+		font-size: 0.55rem;
 		font-weight: 500;
-		color: var(--accent);
-		background: rgba(var(--accent-rgb), 0.1);
-		padding: 0.1rem 0.4rem;
-		border-radius: 3px;
+		color: var(--cyan);
+		padding: 0.1rem 0.35rem;
+		border-radius: 2px;
+		border: 1px solid rgba(0, 204, 238, 0.2);
 	}
 
 	.panel-status {
-		font-size: 0.6rem;
+		font-size: 0.5rem;
 		font-weight: 600;
 		padding: 0.1rem 0.4rem;
-		border-radius: 3px;
+		border-radius: 2px;
 		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	.panel-status.monitoring {
-		color: var(--text-secondary);
-		background: rgba(255, 255, 255, 0.05);
+		color: var(--text-muted);
+		border: 1px solid var(--border);
 	}
 
 	.panel-status.elevated {
-		color: #ffa500;
-		background: rgba(255, 165, 0, 0.15);
+		color: var(--yellow);
+		border: 1px solid rgba(255, 196, 0, 0.3);
 	}
 
 	.panel-status.critical {
-		color: #ff4444;
-		background: rgba(255, 68, 68, 0.15);
+		color: var(--red);
+		border: 1px solid rgba(255, 45, 45, 0.3);
+		animation: pulse-dot 2s ease-in-out infinite;
+	}
+
+	@keyframes pulse-dot {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.5; }
 	}
 
 	.panel-loading {
-		width: 12px;
-		height: 12px;
-		border: 2px solid var(--border);
-		border-top-color: var(--accent);
+		width: 10px;
+		height: 10px;
+		border: 1.5px solid var(--border);
+		border-top-color: var(--green);
 		border-radius: 50%;
-		animation: spin 1s linear infinite;
+		animation: spin 0.8s linear infinite;
 	}
 
 	@keyframes spin {
-		to {
-			transform: rotate(360deg);
-		}
+		to { transform: rotate(360deg); }
 	}
 
 	.panel-actions {
@@ -184,7 +207,7 @@
 	.panel-collapse-btn {
 		background: none;
 		border: none;
-		color: var(--text-secondary);
+		color: var(--text-muted);
 		cursor: pointer;
 		padding: 0.25rem;
 		font-size: 0.5rem;
@@ -192,7 +215,7 @@
 	}
 
 	.panel-collapse-btn:hover {
-		color: var(--text-primary);
+		color: var(--text);
 	}
 
 	.panel-content {
@@ -206,16 +229,30 @@
 	}
 
 	.error-msg {
-		color: var(--danger);
+		color: var(--red);
 		text-align: center;
 		padding: 1rem;
-		font-size: 0.7rem;
+		font-size: 0.65rem;
 	}
 
 	.loading-msg {
-		color: var(--text-secondary);
+		color: var(--text-muted);
 		text-align: center;
 		padding: 1rem;
-		font-size: 0.7rem;
+		font-size: 0.6rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.loading-spinner {
+		width: 10px;
+		height: 10px;
+		border: 1.5px solid var(--border);
+		border-top-color: var(--green);
+		border-radius: 50%;
+		animation: spin 0.8s linear infinite;
+		display: inline-block;
 	}
 </style>

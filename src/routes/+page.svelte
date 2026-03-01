@@ -225,234 +225,239 @@
 	<Header onSettingsClick={() => (settingsOpen = true)} />
 
 	<main class="main-content">
-		<Dashboard>
-			<!-- Map Panel - Full width -->
+		<div class="split-layout">
+			<!-- Left side: feeds -->
+			<div class="feeds-column">
+				<Dashboard>
+					<!-- News Panels -->
+					{#if isPanelVisible('politics')}
+						<div class="panel-slot">
+							<NewsPanel category="politics" panelId="politics" title="Politics" />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('tech')}
+						<div class="panel-slot">
+							<NewsPanel category="tech" panelId="tech" title="Tech" />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('finance')}
+						<div class="panel-slot">
+							<NewsPanel category="finance" panelId="finance" title="Crypto & DeFi" />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('gov')}
+						<div class="panel-slot">
+							<NewsPanel category="gov" panelId="gov" title="Ethereum & Web3" />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('ai')}
+						<div class="panel-slot">
+							<NewsPanel category="ai" panelId="ai" title="AI Frontier" />
+						</div>
+					{/if}
+
+					<!-- Markets Panels -->
+					{#if isPanelVisible('markets')}
+						<div class="panel-slot">
+							<MarketsPanel />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('heatmap')}
+						<div class="panel-slot">
+							<HeatmapPanel />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('commodities')}
+						<div class="panel-slot">
+							<CommoditiesPanel />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('crypto')}
+						<div class="panel-slot">
+							<CryptoPanel />
+						</div>
+					{/if}
+
+					<!-- Analysis Panels -->
+					{#if isPanelVisible('mainchar')}
+						<div class="panel-slot">
+							<MainCharPanel />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('correlation')}
+						<div class="panel-slot">
+							<CorrelationPanel news={$allNewsItems} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('narrative')}
+						<div class="panel-slot">
+							<NarrativePanel news={$allNewsItems} />
+						</div>
+					{/if}
+
+					<!-- Intel Panel -->
+					{#if isPanelVisible('intel')}
+						<div class="panel-slot">
+							<IntelPanel />
+						</div>
+					{/if}
+
+					<!-- Fed Panel -->
+					{#if isPanelVisible('fed')}
+						<div class="panel-slot">
+							<FedPanel />
+						</div>
+					{/if}
+
+					<!-- World Leaders Panel -->
+					{#if isPanelVisible('leaders')}
+						<div class="panel-slot">
+							<WorldLeadersPanel {leaders} loading={leadersLoading} />
+						</div>
+					{/if}
+
+					<!-- Situation Panels -->
+					{#if isPanelVisible('networkstates')}
+						<div class="panel-slot">
+							<SituationPanel
+								panelId="networkstates"
+								config={{
+									title: 'Network States Watch',
+									subtitle: 'Popup cities, charter cities, startup societies',
+									criticalKeywords: ['network state', 'charter city', 'zuzalu', 'edge city', 'popup city', 'prospera', 'special economic zone', 'seasteading']
+								}}
+								news={$allNewsItems.filter(
+									(n) => {
+										const t = n.title.toLowerCase();
+										return t.includes('network state') ||
+											t.includes('charter city') ||
+											t.includes('zuzalu') ||
+											t.includes('popup') ||
+											t.includes('prospera') ||
+											t.includes('special economic zone') ||
+											t.includes('startup societ');
+									}
+								)}
+							/>
+						</div>
+					{/if}
+
+					{#if isPanelVisible('aigovernance')}
+						<div class="panel-slot">
+							<SituationPanel
+								panelId="aigovernance"
+								config={{
+									title: 'AI Governance',
+									subtitle: 'Regulation, alignment, safety, and policy',
+									criticalKeywords: ['ai regulation', 'alignment', 'ai safety', 'ai act', 'agi', 'superintelligence', 'existential risk', 'pause ai']
+								}}
+								news={$allNewsItems.filter(
+									(n) => {
+										const t = n.title.toLowerCase();
+										return t.includes('ai regulat') ||
+											t.includes('ai safety') ||
+											t.includes('alignment') ||
+											t.includes('ai act') ||
+											t.includes('agi') ||
+											t.includes('superintelligen') ||
+											t.includes('ai governance') ||
+											t.includes('ai policy');
+									}
+								)}
+							/>
+						</div>
+					{/if}
+
+					{#if isPanelVisible('etheco')}
+						<div class="panel-slot">
+							<SituationPanel
+								panelId="etheco"
+								config={{
+									title: 'Ethereum Ecosystem',
+									subtitle: 'L2s, DeFi, governance, public goods funding',
+									criticalKeywords: ['ethereum', 'vitalik', 'layer 2', 'optimism', 'arbitrum', 'gitcoin', 'ens', 'eip']
+								}}
+								news={$allNewsItems.filter(
+									(n) => {
+										const t = n.title.toLowerCase();
+										return t.includes('ethereum') ||
+											t.includes('vitalik') ||
+											t.includes('layer 2') ||
+											t.includes('optimism') ||
+											t.includes('arbitrum') ||
+											t.includes('gitcoin') ||
+											t.includes('eip-') ||
+											t.includes('ens ');
+									}
+								)}
+							/>
+						</div>
+					{/if}
+
+					<!-- Placeholder panels for additional data sources -->
+					{#if isPanelVisible('whales')}
+						<div class="panel-slot">
+							<WhalePanel {whales} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('polymarket')}
+						<div class="panel-slot">
+							<PolymarketPanel {predictions} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('contracts')}
+						<div class="panel-slot">
+							<ContractsPanel {contracts} />
+						</div>
+					{/if}
+
+					{#if isPanelVisible('layoffs')}
+						<div class="panel-slot">
+							<LayoffsPanel {layoffs} />
+						</div>
+					{/if}
+
+					<!-- Money Printer Panel -->
+					{#if isPanelVisible('printer')}
+						<div class="panel-slot">
+							<PrinterPanel />
+						</div>
+					{/if}
+
+					<!-- Custom Monitors (always last) -->
+					{#if isPanelVisible('monitors')}
+						<div class="panel-slot">
+							<MonitorsPanel
+								monitors={$monitors.monitors}
+								matches={$monitors.matches}
+								onCreateMonitor={handleCreateMonitor}
+								onEditMonitor={handleEditMonitor}
+								onDeleteMonitor={handleDeleteMonitor}
+								onToggleMonitor={handleToggleMonitor}
+							/>
+						</div>
+					{/if}
+				</Dashboard>
+			</div>
+
+			<!-- Right side: map (quarter screen) -->
 			{#if isPanelVisible('map')}
-				<div class="panel-slot map-slot">
+				<div class="map-column">
 					<MapPanel monitors={$monitors.monitors} />
 				</div>
 			{/if}
-
-			<!-- News Panels -->
-			{#if isPanelVisible('politics')}
-				<div class="panel-slot">
-					<NewsPanel category="politics" panelId="politics" title="Politics" />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('tech')}
-				<div class="panel-slot">
-					<NewsPanel category="tech" panelId="tech" title="Tech" />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('finance')}
-				<div class="panel-slot">
-					<NewsPanel category="finance" panelId="finance" title="Crypto & DeFi" />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('gov')}
-				<div class="panel-slot">
-					<NewsPanel category="gov" panelId="gov" title="Ethereum & Web3" />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('ai')}
-				<div class="panel-slot">
-					<NewsPanel category="ai" panelId="ai" title="AI Frontier" />
-				</div>
-			{/if}
-
-			<!-- Markets Panels -->
-			{#if isPanelVisible('markets')}
-				<div class="panel-slot">
-					<MarketsPanel />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('heatmap')}
-				<div class="panel-slot">
-					<HeatmapPanel />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('commodities')}
-				<div class="panel-slot">
-					<CommoditiesPanel />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('crypto')}
-				<div class="panel-slot">
-					<CryptoPanel />
-				</div>
-			{/if}
-
-			<!-- Analysis Panels -->
-			{#if isPanelVisible('mainchar')}
-				<div class="panel-slot">
-					<MainCharPanel />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('correlation')}
-				<div class="panel-slot">
-					<CorrelationPanel news={$allNewsItems} />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('narrative')}
-				<div class="panel-slot">
-					<NarrativePanel news={$allNewsItems} />
-				</div>
-			{/if}
-
-			<!-- Intel Panel -->
-			{#if isPanelVisible('intel')}
-				<div class="panel-slot">
-					<IntelPanel />
-				</div>
-			{/if}
-
-			<!-- Fed Panel -->
-			{#if isPanelVisible('fed')}
-				<div class="panel-slot">
-					<FedPanel />
-				</div>
-			{/if}
-
-			<!-- World Leaders Panel -->
-			{#if isPanelVisible('leaders')}
-				<div class="panel-slot">
-					<WorldLeadersPanel {leaders} loading={leadersLoading} />
-				</div>
-			{/if}
-
-			<!-- Situation Panels -->
-			{#if isPanelVisible('networkstates')}
-				<div class="panel-slot">
-					<SituationPanel
-						panelId="networkstates"
-						config={{
-							title: 'Network States Watch',
-							subtitle: 'Popup cities, charter cities, startup societies',
-							criticalKeywords: ['network state', 'charter city', 'zuzalu', 'edge city', 'popup city', 'prospera', 'special economic zone', 'seasteading']
-						}}
-						news={$allNewsItems.filter(
-							(n) => {
-								const t = n.title.toLowerCase();
-								return t.includes('network state') ||
-									t.includes('charter city') ||
-									t.includes('zuzalu') ||
-									t.includes('popup') ||
-									t.includes('prospera') ||
-									t.includes('special economic zone') ||
-									t.includes('startup societ');
-							}
-						)}
-					/>
-				</div>
-			{/if}
-
-			{#if isPanelVisible('aigovernance')}
-				<div class="panel-slot">
-					<SituationPanel
-						panelId="aigovernance"
-						config={{
-							title: 'AI Governance',
-							subtitle: 'Regulation, alignment, safety, and policy',
-							criticalKeywords: ['ai regulation', 'alignment', 'ai safety', 'ai act', 'agi', 'superintelligence', 'existential risk', 'pause ai']
-						}}
-						news={$allNewsItems.filter(
-							(n) => {
-								const t = n.title.toLowerCase();
-								return t.includes('ai regulat') ||
-									t.includes('ai safety') ||
-									t.includes('alignment') ||
-									t.includes('ai act') ||
-									t.includes('agi') ||
-									t.includes('superintelligen') ||
-									t.includes('ai governance') ||
-									t.includes('ai policy');
-							}
-						)}
-					/>
-				</div>
-			{/if}
-
-			{#if isPanelVisible('etheco')}
-				<div class="panel-slot">
-					<SituationPanel
-						panelId="etheco"
-						config={{
-							title: 'Ethereum Ecosystem',
-							subtitle: 'L2s, DeFi, governance, public goods funding',
-							criticalKeywords: ['ethereum', 'vitalik', 'layer 2', 'optimism', 'arbitrum', 'gitcoin', 'ens', 'eip']
-						}}
-						news={$allNewsItems.filter(
-							(n) => {
-								const t = n.title.toLowerCase();
-								return t.includes('ethereum') ||
-									t.includes('vitalik') ||
-									t.includes('layer 2') ||
-									t.includes('optimism') ||
-									t.includes('arbitrum') ||
-									t.includes('gitcoin') ||
-									t.includes('eip-') ||
-									t.includes('ens ');
-							}
-						)}
-					/>
-				</div>
-			{/if}
-
-			<!-- Placeholder panels for additional data sources -->
-			{#if isPanelVisible('whales')}
-				<div class="panel-slot">
-					<WhalePanel {whales} />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('polymarket')}
-				<div class="panel-slot">
-					<PolymarketPanel {predictions} />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('contracts')}
-				<div class="panel-slot">
-					<ContractsPanel {contracts} />
-				</div>
-			{/if}
-
-			{#if isPanelVisible('layoffs')}
-				<div class="panel-slot">
-					<LayoffsPanel {layoffs} />
-				</div>
-			{/if}
-
-			<!-- Money Printer Panel -->
-			{#if isPanelVisible('printer')}
-				<div class="panel-slot">
-					<PrinterPanel />
-				</div>
-			{/if}
-
-			<!-- Custom Monitors (always last) -->
-			{#if isPanelVisible('monitors')}
-				<div class="panel-slot">
-					<MonitorsPanel
-						monitors={$monitors.monitors}
-						matches={$monitors.matches}
-						onCreateMonitor={handleCreateMonitor}
-						onEditMonitor={handleEditMonitor}
-						onDeleteMonitor={handleDeleteMonitor}
-						onToggleMonitor={handleToggleMonitor}
-					/>
-				</div>
-			{/if}
-		</Dashboard>
+		</div>
 	</main>
 
 	<!-- Modals -->
@@ -483,14 +488,44 @@
 		overflow-y: auto;
 	}
 
-	.map-slot {
-		column-span: all;
-		margin-bottom: 0.5rem;
+	.split-layout {
+		display: flex;
+		gap: 0.5rem;
+		max-width: 2000px;
+		margin: 0 auto;
 	}
 
-	@media (max-width: 768px) {
-		.main-content {
-			padding: 0.25rem;
+	.feeds-column {
+		flex: 3;
+		min-width: 0;
+	}
+
+	.map-column {
+		flex: 1;
+		position: sticky;
+		top: 0.5rem;
+		height: calc(100vh - 4rem);
+		min-width: 300px;
+	}
+
+	.map-column :global(.panel) {
+		height: 100%;
+	}
+
+	.map-column :global(.map-container),
+	.map-column :global(svg) {
+		height: 100% !important;
+	}
+
+	@media (max-width: 900px) {
+		.split-layout {
+			flex-direction: column-reverse;
+		}
+
+		.map-column {
+			position: relative;
+			height: 300px;
+			min-width: unset;
 		}
 	}
 </style>

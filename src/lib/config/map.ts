@@ -6,6 +6,7 @@ export interface Hotspot {
 	lon: number;
 	level: 'critical' | 'high' | 'elevated' | 'low';
 	desc: string;
+	type: 'geopolitical' | 'crypto' | 'network-state';
 }
 
 export interface ConflictZone {
@@ -73,49 +74,56 @@ export const HOTSPOTS: Hotspot[] = [
 		lat: 38.9,
 		lon: -77.0,
 		level: 'elevated',
-		desc: 'Washington DC — US crypto regulation, SEC enforcement, AI policy'
+		desc: 'Washington DC — US crypto regulation, SEC enforcement, AI policy',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Brussels',
 		lat: 50.85,
 		lon: 4.35,
 		level: 'elevated',
-		desc: 'Brussels — EU MiCA regulation, AI Act enforcement, digital identity'
+		desc: 'Brussels — EU MiCA regulation, AI Act enforcement, digital identity',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Beijing',
 		lat: 39.9,
 		lon: 116.4,
 		level: 'elevated',
-		desc: 'Beijing — AI race with US, digital yuan, tech crackdown'
+		desc: 'Beijing — AI race with US, digital yuan, tech crackdown',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Kyiv',
 		lat: 50.45,
 		lon: 30.5,
 		level: 'high',
-		desc: 'Kyiv — Active conflict zone, crypto donations, digital resilience'
+		desc: 'Kyiv — Active conflict zone, crypto donations, digital resilience',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Tehran',
 		lat: 35.7,
 		lon: 51.4,
 		level: 'high',
-		desc: 'Tehran — Sanctions, nuclear program, protest movements'
+		desc: 'Tehran — Sanctions, nuclear program, protest movements',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Tel Aviv',
 		lat: 32.07,
 		lon: 34.78,
 		level: 'high',
-		desc: 'Tel Aviv — Gaza conflict, crypto/AI startup hub'
+		desc: 'Tel Aviv — Gaza conflict, crypto/AI startup hub',
+		type: 'geopolitical'
 	},
 	{
 		name: 'Taipei',
 		lat: 25.03,
 		lon: 121.5,
 		level: 'elevated',
-		desc: 'Taipei — Taiwan Strait tensions, TSMC, digital democracy (vTaiwan, Audrey Tang)'
+		desc: 'Taipei — Taiwan Strait tensions, TSMC, digital democracy (vTaiwan, Audrey Tang)',
+		type: 'geopolitical'
 	},
 	// Crypto & Web3 hubs
 	{
@@ -123,35 +131,40 @@ export const HOTSPOTS: Hotspot[] = [
 		lat: 47.17,
 		lon: 8.52,
 		level: 'low',
-		desc: 'Zug — Crypto Valley, Ethereum Foundation, Swiss regulation'
+		desc: 'Zug — Crypto Valley, Ethereum Foundation, Swiss regulation',
+		type: 'crypto'
 	},
 	{
 		name: 'Singapore',
 		lat: 1.35,
 		lon: 103.82,
 		level: 'low',
-		desc: 'Singapore — Crypto hub, MAS regulation, Web3 capital'
+		desc: 'Singapore — Crypto hub, MAS regulation, Web3 capital',
+		type: 'crypto'
 	},
 	{
 		name: 'Dubai',
 		lat: 25.2,
 		lon: 55.27,
 		level: 'low',
-		desc: 'Dubai — VARA regulation, crypto-friendly zone, Binance HQ'
+		desc: 'Dubai — VARA regulation, crypto-friendly zone, Binance HQ',
+		type: 'crypto'
 	},
 	{
 		name: 'San Francisco',
 		lat: 37.77,
 		lon: -122.42,
 		level: 'low',
-		desc: 'San Francisco — AI frontier (OpenAI, Anthropic), crypto VC, tech policy'
+		desc: 'San Francisco — AI frontier (OpenAI, Anthropic), crypto VC, tech policy',
+		type: 'crypto'
 	},
 	{
 		name: 'London',
 		lat: 51.5,
 		lon: -0.12,
 		level: 'low',
-		desc: 'London — DeepMind, FCA regulation, DeFi capital'
+		desc: 'London — DeepMind, FCA regulation, DeFi capital',
+		type: 'crypto'
 	},
 	// Network state / popup city locations
 	{
@@ -159,56 +172,64 @@ export const HOTSPOTS: Hotspot[] = [
 		lat: 38.61,
 		lon: -122.87,
 		level: 'low',
-		desc: 'Healdsburg, CA — Edge Esmeralda 2026, popup village, frontier governance experiments'
+		desc: 'Healdsburg, CA — Edge Esmeralda 2026, popup village, frontier governance experiments',
+		type: 'network-state'
 	},
 	{
 		name: 'Lustica Bay',
 		lat: 42.38,
 		lon: 18.67,
 		level: 'low',
-		desc: 'Lustica Bay, Montenegro — Zuzalu 2023, first popup city experiment'
+		desc: 'Lustica Bay, Montenegro — Zuzalu 2023, first popup city experiment',
+		type: 'network-state'
 	},
 	{
 		name: 'Chiang Mai',
 		lat: 18.79,
 		lon: 98.98,
 		level: 'low',
-		desc: 'Chiang Mai — Network School, digital nomad hub, Zuzalu community'
+		desc: 'Chiang Mai — Network School, digital nomad hub, Zuzalu community',
+		type: 'network-state'
 	},
 	{
 		name: 'Prospera',
 		lat: 16.3,
 		lon: -86.53,
 		level: 'elevated',
-		desc: 'Prospera, Honduras — Charter city ZEDE, legal battles, governance experiment'
+		desc: 'Prospera, Honduras — Charter city ZEDE, legal battles, governance experiment',
+		type: 'network-state'
 	},
 	{
 		name: 'Patagonia',
 		lat: -41.81,
 		lon: -71.5,
 		level: 'low',
-		desc: 'Patagonia, Argentina — Edge City Patagonia 2025, popup village'
+		desc: 'Patagonia, Argentina — Edge City Patagonia 2025, popup village',
+		type: 'network-state'
 	},
 	{
 		name: 'Berlin',
 		lat: 52.52,
 		lon: 13.4,
 		level: 'low',
-		desc: 'Berlin — Ethereum community, governance research hub, CCC'
+		desc: 'Berlin — Ethereum community, governance research hub, CCC',
+		type: 'network-state'
 	},
 	{
 		name: 'Bhutan',
 		lat: 27.47,
 		lon: 89.64,
 		level: 'low',
-		desc: 'Bhutan — Edge City Bhutan 2025, GNH, unique governance model'
+		desc: 'Bhutan — Edge City Bhutan 2025, GNH, unique governance model',
+		type: 'network-state'
 	},
 	{
 		name: 'Delhi',
 		lat: 28.6,
 		lon: 77.2,
 		level: 'low',
-		desc: 'Delhi — Edge City India 2026, emerging crypto regulation'
+		desc: 'Delhi — Edge City India 2026, emerging crypto regulation',
+		type: 'network-state'
 	}
 ];
 

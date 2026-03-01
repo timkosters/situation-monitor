@@ -34,8 +34,8 @@
 				<button class="close-btn" onclick={handleClose} aria-label="Skip onboarding">
 					&times;
 				</button>
-				<h2>Welcome to Situation Monitor</h2>
-				<p class="subtitle">Choose a dashboard configuration to get started</p>
+				<h2><span style="color: var(--green);">R2</span> // Situation Monitor</h2>
+				<p class="subtitle">Select your monitoring profile</p>
 			</div>
 
 			<div class="preset-grid">
@@ -144,13 +144,17 @@
 	}
 
 	.preset-card:hover {
-		border-color: var(--accent);
-		background: rgba(0, 255, 136, 0.05);
+		border-color: var(--green);
+		background: rgba(0, 255, 127, 0.03);
+		box-shadow: 0 0 20px rgba(0, 255, 127, 0.05);
 	}
 
 	.preset-icon {
-		font-size: 2rem;
+		font-size: 1.4rem;
 		margin-bottom: 0.25rem;
+		color: var(--cyan);
+		font-weight: 800;
+		letter-spacing: 0.05em;
 	}
 
 	.preset-name {

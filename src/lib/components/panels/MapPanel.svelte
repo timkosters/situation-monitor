@@ -3,12 +3,6 @@
 	import { Panel } from '$lib/components/common';
 	import {
 		HOTSPOTS,
-		CONFLICT_ZONES,
-		CHOKEPOINTS,
-		CABLE_LANDINGS,
-		NUCLEAR_SITES,
-		MILITARY_BASES,
-		OCEANS,
 		SANCTIONED_COUNTRY_IDS,
 		THREAT_COLORS,
 		WEATHER_CODES
@@ -33,11 +27,10 @@
 	let mapGroup: any = null;
 	let projection: any = null;
 	let path: any = null;
-	let zoom: any = null;
 	/* eslint-enable @typescript-eslint/no-explicit-any */
 
-	const WIDTH = 800;
-	const HEIGHT = 400;
+	const WIDTH = 600;
+	const HEIGHT = 600;
 
 	// Tooltip state
 	let tooltipContent = $state<{
@@ -116,37 +109,26 @@
 		}
 	}
 
-	// Enable zoom/pan behavior on the map
-	function enableZoom(): void {
-		if (!svg || !zoom) return;
-		svg.call(zoom);
+
+	// Slow auto-rotation
+	let autoRotateTimer: ReturnType<typeof setInterval> | null = null;
+
+	function startAutoRotate(): void {
+		if (autoRotateTimer) return;
+		autoRotateTimer = setInterval(() => {
+			if (!projection) return;
+			const r = projection.rotate() as [number, number, number];
+			projection.rotate([r[0] + 0.15, r[1], r[2]]);
+			mapGroup?.selectAll('path').attr('d', path as unknown as string);
+			redrawMarkers();
+		}, 50);
 	}
 
-	// Calculate day/night terminator points
-	function calculateTerminator(): [number, number][] {
-		const now = new Date();
-		const dayOfYear = Math.floor(
-			(now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000
-		);
-		const declination = -23.45 * Math.cos(((360 / 365) * (dayOfYear + 10) * Math.PI) / 180);
-		const hourAngle = (now.getUTCHours() + now.getUTCMinutes() / 60) * 15 - 180;
-
-		const terminatorPoints: [number, number][] = [];
-		for (let lat = -90; lat <= 90; lat += 2) {
-			const tanDec = Math.tan((declination * Math.PI) / 180);
-			const tanLat = Math.tan((lat * Math.PI) / 180);
-			let lon = -hourAngle + (Math.acos(-tanDec * tanLat) * 180) / Math.PI;
-			if (isNaN(lon)) lon = lat * declination > 0 ? -hourAngle + 180 : -hourAngle;
-			terminatorPoints.push([lon, lat]);
+	function stopAutoRotate(): void {
+		if (autoRotateTimer) {
+			clearInterval(autoRotateTimer);
+			autoRotateTimer = null;
 		}
-		for (let lat = 90; lat >= -90; lat -= 2) {
-			const tanDec = Math.tan((declination * Math.PI) / 180);
-			const tanLat = Math.tan((lat * Math.PI) / 180);
-			let lon = -hourAngle - (Math.acos(-tanDec * tanLat) * 180) / Math.PI;
-			if (isNaN(lon)) lon = lat * declination > 0 ? -hourAngle - 180 : -hourAngle;
-			terminatorPoints.push([lon, lat]);
-		}
-		return terminatorPoints;
 	}
 
 	// Show tooltip using state (safe rendering)
@@ -223,36 +205,42 @@
 
 		mapGroup = svg.append('g').attr('id', 'mapGroup');
 
-		// Setup zoom - disable scroll wheel, allow touch pinch and buttons
-		zoom = d3
-			.zoom<SVGSVGElement, unknown>()
-			.scaleExtent([1, 6])
-			.filter((event) => {
-				// Block scroll wheel zoom (wheel events)
-				if (event.type === 'wheel') return false;
-				// Allow touch events (pinch zoom on mobile)
-				if (event.type.startsWith('touch')) return true;
-				// Allow mouse drag for panning
-				if (event.type === 'mousedown' || event.type === 'mousemove') return true;
-				// Block double-click zoom
-				if (event.type === 'dblclick') return false;
-				// Allow other events (programmatic zoom from buttons)
-				return true;
-			})
-			.on('zoom', (event) => {
-				mapGroup.attr('transform', event.transform.toString());
-			});
-
-		enableZoom();
-
-		// Setup projection
+		// Setup orthographic (globe) projection
 		projection = d3
-			.geoEquirectangular()
-			.scale(130)
-			.center([0, 20])
-			.translate([WIDTH / 2, HEIGHT / 2 - 30]);
+			.geoOrthographic()
+			.scale(250)
+			.center([0, 0])
+			.rotate([0, -20])
+			.translate([WIDTH / 2, HEIGHT / 2]);
 
 		path = d3.geoPath().projection(projection);
+
+		// Add drag-to-rotate behavior
+		let rotateStart: [number, number, number] = [0, -20, 0];
+		const dragBehavior = d3
+			.drag<SVGSVGElement, unknown>()
+			.on('start', () => {
+				stopAutoRotate();
+				rotateStart = projection.rotate() as [number, number, number];
+			})
+			.on('end', () => {
+				startAutoRotate();
+			})
+			.on('drag', (event) => {
+				const sensitivity = 0.4;
+				const rotate: [number, number, number] = [
+					rotateStart[0] + event.dx * sensitivity,
+					Math.max(-90, Math.min(90, rotateStart[1] - event.dy * sensitivity)),
+					0
+				];
+				rotateStart = rotate;
+				projection.rotate(rotate);
+				// Redraw everything
+				mapGroup.selectAll('path').attr('d', path as unknown as string);
+				redrawMarkers();
+			});
+
+		svg.call(dragBehavior);
 
 		// Load world data
 		try {
@@ -265,6 +253,26 @@
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				world.objects.countries as any
 			) as unknown as GeoJSON.FeatureCollection;
+
+			// Draw globe outline (ocean) — first so countries render on top
+			mapGroup
+				.append('path')
+				.datum({ type: 'Sphere' } as unknown as GeoJSON.GeoJsonObject)
+				.attr('d', path as unknown as string)
+				.attr('fill', '#050a08')
+				.attr('stroke', '#1a5040')
+				.attr('stroke-width', 1.5);
+
+			// Draw graticule
+			const graticule = d3.geoGraticule().step([30, 30]);
+			mapGroup
+				.append('path')
+				.datum(graticule)
+				.attr('d', path as unknown as string)
+				.attr('fill', 'none')
+				.attr('stroke', '#1a3830')
+				.attr('stroke-width', 0.3)
+				.attr('stroke-dasharray', '2,2');
 
 			// Draw countries
 			mapGroup
@@ -282,212 +290,121 @@
 				)
 				.attr('stroke-width', 0.5);
 
-			// Draw graticule
-			const graticule = d3.geoGraticule().step([30, 30]);
-			mapGroup
-				.append('path')
-				.datum(graticule)
-				.attr('d', path as unknown as string)
-				.attr('fill', 'none')
-				.attr('stroke', '#1a3830')
-				.attr('stroke-width', 0.3)
-				.attr('stroke-dasharray', '2,2');
-
-			// Draw ocean labels
-			OCEANS.forEach((o) => {
-				const [x, y] = projection([o.lon, o.lat]) || [0, 0];
-				if (x && y) {
-					mapGroup
-						.append('text')
-						.attr('x', x)
-						.attr('y', y)
-						.attr('fill', '#1a4a40')
-						.attr('font-size', '10px')
-						.attr('font-family', 'monospace')
-						.attr('text-anchor', 'middle')
-						.attr('opacity', 0.6)
-						.text(o.name);
-				}
-			});
-
-			// Draw day/night terminator
-			const terminatorPoints = calculateTerminator();
-			mapGroup
-				.append('path')
-				.datum({ type: 'Polygon', coordinates: [terminatorPoints] } as GeoJSON.Polygon)
-				.attr('d', path as unknown as string)
-				.attr('fill', 'rgba(0,0,0,0.3)')
-				.attr('stroke', 'none');
-
-			// Draw conflict zones
-			CONFLICT_ZONES.forEach((zone) => {
-				mapGroup
-					.append('path')
-					.datum({ type: 'Polygon', coordinates: [zone.coords] } as GeoJSON.Polygon)
-					.attr('d', path as unknown as string)
-					.attr('fill', zone.color)
-					.attr('fill-opacity', 0.15)
-					.attr('stroke', zone.color)
-					.attr('stroke-width', 0.5)
-					.attr('stroke-opacity', 0.4);
-			});
-
-			// Draw chokepoints
-			CHOKEPOINTS.forEach((cp) => {
-				const [x, y] = projection([cp.lon, cp.lat]) || [0, 0];
-				if (x && y) {
-					mapGroup
-						.append('rect')
-						.attr('x', x - 4)
-						.attr('y', y - 4)
-						.attr('width', 8)
-						.attr('height', 8)
-						.attr('fill', '#00aaff')
-						.attr('opacity', 0.8)
-						.attr('transform', `rotate(45,${x},${y})`);
-					mapGroup
-						.append('text')
-						.attr('x', x + 8)
-						.attr('y', y + 3)
-						.attr('fill', '#00aaff')
-						.attr('font-size', '7px')
-						.attr('font-family', 'monospace')
-						.text(cp.name);
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 10)
-						.attr('fill', 'transparent')
-						.attr('class', 'hotspot-hit')
-						.on('mouseenter', (event: MouseEvent) => showTooltip(event, `⬥ ${cp.desc}`, '#00aaff'))
-						.on('mousemove', moveTooltip)
-						.on('mouseleave', hideTooltip);
-				}
-			});
-
-			// Draw cable landings
-			CABLE_LANDINGS.forEach((cl) => {
-				const [x, y] = projection([cl.lon, cl.lat]) || [0, 0];
-				if (x && y) {
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 3)
-						.attr('fill', 'none')
-						.attr('stroke', '#aa44ff')
-						.attr('stroke-width', 1.5);
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 10)
-						.attr('fill', 'transparent')
-						.attr('class', 'hotspot-hit')
-						.on('mouseenter', (event: MouseEvent) => showTooltip(event, `◎ ${cl.desc}`, '#aa44ff'))
-						.on('mousemove', moveTooltip)
-						.on('mouseleave', hideTooltip);
-				}
-			});
-
-			// Draw nuclear sites
-			NUCLEAR_SITES.forEach((ns) => {
-				const [x, y] = projection([ns.lon, ns.lat]) || [0, 0];
-				if (x && y) {
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 2)
-						.attr('fill', '#ffff00');
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 5)
-						.attr('fill', 'none')
-						.attr('stroke', '#ffff00')
-						.attr('stroke-width', 1)
-						.attr('stroke-dasharray', '3,3');
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 10)
-						.attr('fill', 'transparent')
-						.attr('class', 'hotspot-hit')
-						.on('mouseenter', (event: MouseEvent) => showTooltip(event, `☢ ${ns.desc}`, '#ffff00'))
-						.on('mousemove', moveTooltip)
-						.on('mouseleave', hideTooltip);
-				}
-			});
-
-			// Draw military bases
-			MILITARY_BASES.forEach((mb) => {
-				const [x, y] = projection([mb.lon, mb.lat]) || [0, 0];
-				if (x && y) {
-					const starPath = `M${x},${y - 5} L${x + 1.5},${y - 1.5} L${x + 5},${y - 1.5} L${x + 2.5},${y + 1} L${x + 3.5},${y + 5} L${x},${y + 2.5} L${x - 3.5},${y + 5} L${x - 2.5},${y + 1} L${x - 5},${y - 1.5} L${x - 1.5},${y - 1.5} Z`;
-					mapGroup.append('path').attr('d', starPath).attr('fill', '#ff00ff').attr('opacity', 0.8);
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 10)
-						.attr('fill', 'transparent')
-						.attr('class', 'hotspot-hit')
-						.on('mouseenter', (event: MouseEvent) => showTooltip(event, `★ ${mb.desc}`, '#ff00ff'))
-						.on('mousemove', moveTooltip)
-						.on('mouseleave', hideTooltip);
-				}
-			});
-
-			// Draw hotspots
-			HOTSPOTS.forEach((h) => {
-				const [x, y] = projection([h.lon, h.lat]) || [0, 0];
-				if (x && y) {
-					const color = THREAT_COLORS[h.level];
-					// Pulsing circle
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 6)
-						.attr('fill', color)
-						.attr('fill-opacity', 0.3)
-						.attr('class', 'pulse');
-					// Inner dot
-					mapGroup.append('circle').attr('cx', x).attr('cy', y).attr('r', 3).attr('fill', color);
-					// Label
-					mapGroup
-						.append('text')
-						.attr('x', x + 8)
-						.attr('y', y + 3)
-						.attr('fill', color)
-						.attr('font-size', '8px')
-						.attr('font-family', 'monospace')
-						.text(h.name);
-					// Hit area
-					mapGroup
-						.append('circle')
-						.attr('cx', x)
-						.attr('cy', y)
-						.attr('r', 12)
-						.attr('fill', 'transparent')
-						.attr('class', 'hotspot-hit')
-						.on('mouseenter', (event: MouseEvent) =>
-							showEnhancedTooltip(event, h.name, h.lat, h.lon, h.desc, color)
-						)
-						.on('mousemove', moveTooltip)
-						.on('mouseleave', hideTooltip);
-				}
-			});
+			// Draw hotspots with type-specific symbols
+			drawAllHotspots();
 
 			// Draw custom monitors with locations
 			drawMonitors();
 		} catch (err) {
 			console.error('Failed to load map data:', err);
 		}
+	}
+
+	// Check if a point is visible on the globe (not on the back side)
+	function isVisible(lon: number, lat: number): boolean {
+		if (!projection) return false;
+		const coords = projection([lon, lat]);
+		if (!coords) return false;
+		// Check if point is on the visible hemisphere
+		const center = projection.invert?.([WIDTH / 2, HEIGHT / 2]);
+		if (!center) return true;
+		const d = d3Module!.geoDistance([lon, lat], center as [number, number]);
+		return d < Math.PI / 2;
+	}
+
+	// Draw a diamond shape at position
+	function drawDiamond(x: number, y: number, size: number, color: string): void {
+		const s = size;
+		mapGroup
+			.append('path')
+			.attr('class', 'hotspot-marker')
+			.attr('d', `M${x},${y - s} L${x + s},${y} L${x},${y + s} L${x - s},${y} Z`)
+			.attr('fill', color)
+			.attr('fill-opacity', 0.7)
+			.attr('stroke', color)
+			.attr('stroke-width', 1);
+	}
+
+	// Draw a triangle shape at position
+	function drawTriangle(x: number, y: number, size: number, color: string): void {
+		const s = size;
+		mapGroup
+			.append('path')
+			.attr('class', 'hotspot-marker')
+			.attr('d', `M${x},${y - s} L${x + s},${y + s * 0.7} L${x - s},${y + s * 0.7} Z`)
+			.attr('fill', 'none')
+			.attr('stroke', color)
+			.attr('stroke-width', 1.5);
+	}
+
+	// Draw all hotspots with type-specific symbols
+	function drawAllHotspots(): void {
+		if (!mapGroup || !projection) return;
+		mapGroup.selectAll('.hotspot-marker,.hotspot-label,.hotspot-hit,.pulse').remove();
+
+		HOTSPOTS.forEach((h) => {
+			if (!isVisible(h.lon, h.lat)) return;
+			const coords = projection([h.lon, h.lat]);
+			if (!coords) return;
+			const [x, y] = coords;
+			const color = THREAT_COLORS[h.level];
+
+			if (h.type === 'geopolitical') {
+				// Pulsing circle for geopolitical
+				mapGroup
+					.append('circle')
+					.attr('class', 'hotspot-marker pulse')
+					.attr('cx', x)
+					.attr('cy', y)
+					.attr('r', 6)
+					.attr('fill', color)
+					.attr('fill-opacity', 0.3);
+				mapGroup
+					.append('circle')
+					.attr('class', 'hotspot-marker')
+					.attr('cx', x)
+					.attr('cy', y)
+					.attr('r', 3)
+					.attr('fill', color);
+			} else if (h.type === 'crypto') {
+				// Diamond for crypto hubs
+				drawDiamond(x, y, 5, color);
+			} else if (h.type === 'network-state') {
+				// Triangle for network state / popup cities
+				drawTriangle(x, y, 6, color);
+			}
+
+			// Label
+			mapGroup
+				.append('text')
+				.attr('class', 'hotspot-label')
+				.attr('x', x + 8)
+				.attr('y', y + 3)
+				.attr('fill', color)
+				.attr('font-size', '7px')
+				.attr('font-family', 'monospace')
+				.text(h.name);
+
+			// Hit area for tooltip
+			mapGroup
+				.append('circle')
+				.attr('class', 'hotspot-hit')
+				.attr('cx', x)
+				.attr('cy', y)
+				.attr('r', 12)
+				.attr('fill', 'transparent')
+				.on('mouseenter', (event: MouseEvent) =>
+					showEnhancedTooltip(event, h.name, h.lat, h.lon, h.desc, color)
+				)
+				.on('mousemove', moveTooltip)
+				.on('mouseleave', hideTooltip);
+		});
+	}
+
+	// Redraw all markers after rotation
+	function redrawMarkers(): void {
+		drawAllHotspots();
+		drawMonitors();
 	}
 
 	// Draw custom monitor locations
@@ -501,7 +418,10 @@
 			.filter((m) => m.enabled && m.location)
 			.forEach((m) => {
 				if (!m.location) return;
-				const [x, y] = projection([m.location.lon, m.location.lat]) || [0, 0];
+				if (!isVisible(m.location.lon, m.location.lat)) return;
+				const coords = projection([m.location.lon, m.location.lat]);
+				if (!coords) return;
+				const [x, y] = coords;
 				if (x && y) {
 					const color = m.color || '#00ffff';
 					mapGroup
@@ -542,24 +462,6 @@
 			});
 	}
 
-	// Zoom controls
-	function zoomIn(): void {
-		if (!svg || !zoom) return;
-		svg.transition().duration(300).call(zoom.scaleBy, 1.5);
-	}
-
-	function zoomOut(): void {
-		if (!svg || !zoom) return;
-		svg
-			.transition()
-			.duration(300)
-			.call(zoom.scaleBy, 1 / 1.5);
-	}
-
-	function resetZoom(): void {
-		if (!svg || !zoom || !d3Module) return;
-		svg.transition().duration(300).call(zoom.transform, d3Module.zoomIdentity);
-	}
 
 	// Reactively update monitors when they change
 	$effect(() => {
@@ -571,7 +473,12 @@
 	});
 
 	onMount(() => {
-		initMap();
+		initMap().then(() => {
+			startAutoRotate();
+		});
+		return () => {
+			stopAutoRotate();
+		};
 	});
 </script>
 
@@ -589,20 +496,15 @@
 				{/each}
 			</div>
 		{/if}
-		<div class="zoom-controls">
-			<button class="zoom-btn" onclick={zoomIn} title="Zoom in">+</button>
-			<button class="zoom-btn" onclick={zoomOut} title="Zoom out">−</button>
-			<button class="zoom-btn" onclick={resetZoom} title="Reset">⟲</button>
-		</div>
 		<div class="map-legend">
 			<div class="legend-item">
-				<span class="legend-dot high"></span> High
+				<span class="legend-symbol">●</span> Geopolitical
 			</div>
 			<div class="legend-item">
-				<span class="legend-dot elevated"></span> Elevated
+				<span class="legend-symbol" style="color: var(--green)">◆</span> Crypto
 			</div>
 			<div class="legend-item">
-				<span class="legend-dot low"></span> Low
+				<span class="legend-symbol" style="color: var(--cyan)">△</span> Network State
 			</div>
 		</div>
 	</div>
@@ -612,9 +514,9 @@
 	.map-container {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 2 / 1;
-		background: #0a0f0d;
-		border-radius: 4px;
+		aspect-ratio: 1 / 1;
+		background: #030306;
+		border-radius: 50%;
 		overflow: hidden;
 	}
 
@@ -640,34 +542,6 @@
 		opacity: 0.7;
 	}
 
-	.zoom-controls {
-		position: absolute;
-		bottom: 0.5rem;
-		right: 0.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.zoom-btn {
-		width: 2.75rem;
-		height: 2.75rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(20, 20, 20, 0.9);
-		border: 1px solid #333;
-		border-radius: 4px;
-		color: #aaa;
-		font-size: 1rem;
-		cursor: pointer;
-	}
-
-	.zoom-btn:hover {
-		background: rgba(40, 40, 40, 0.9);
-		color: #fff;
-	}
-
 	.map-legend {
 		position: absolute;
 		top: 0.5rem;
@@ -688,22 +562,9 @@
 		color: #888;
 	}
 
-	.legend-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-	}
-
-	.legend-dot.high {
-		background: #ff4444;
-	}
-
-	.legend-dot.elevated {
-		background: #ffcc00;
-	}
-
-	.legend-dot.low {
-		background: #00ff88;
+	.legend-symbol {
+		font-size: 0.7rem;
+		color: #ff4444;
 	}
 
 	/* Pulse animation for hotspots */
@@ -727,10 +588,4 @@
 		cursor: pointer;
 	}
 
-	/* Hide zoom controls on mobile where touch zoom is available */
-	@media (max-width: 768px) {
-		.zoom-controls {
-			display: flex;
-		}
-	}
 </style>
