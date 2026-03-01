@@ -33,62 +33,32 @@
 		{/each}
 	</div>
 
-	<!-- Crypto with charts -->
+	<!-- Crypto -->
 	<div class="section-header">CRYPTO</div>
 	{#if items.length === 0 && !loading && !error}
 		<div class="empty-state">No crypto data available</div>
 	{:else}
-		<!-- Featured coins with big charts -->
-		<div class="featured-coins">
-			{#each items.slice(0, 3) as coin (coin.id)}
+		<div class="crypto-list">
+			{#each items.slice(0, 6) as coin (coin.id)}
 				{@const changeClass = getChangeClass(coin.price_change_percentage_24h)}
-				<div class="featured-coin">
-					<div class="featured-header">
-						<div class="featured-left">
-							<span class="featured-symbol">{coin.symbol.toUpperCase()}</span>
-							<span class="featured-name">{coin.name}</span>
-						</div>
-						<div class="featured-right">
-							<span class="featured-price">{formatCurrency(coin.current_price)}</span>
-							<span class="featured-change {changeClass}">
-								{formatPercentChange(coin.price_change_percentage_24h)}
-							</span>
-						</div>
+				<div class="crypto-row">
+					<div class="crypto-info">
+						<span class="crypto-symbol">{coin.symbol.toUpperCase()}</span>
 					</div>
 					{#if coin.sparkline && coin.sparkline.length > 0}
-						<div class="featured-chart">
-							<Sparkline data={coin.sparkline.slice(-96)} width={280} height={50} color="auto" fillOpacity={0.1} />
+						<div class="crypto-chart">
+							<Sparkline data={coin.sparkline.slice(-72)} width={90} height={24} color="auto" fillOpacity={0.08} />
 						</div>
 					{/if}
+					<div class="crypto-data">
+						<span class="crypto-price">{formatCurrency(coin.current_price)}</span>
+						<span class="crypto-change {changeClass}">
+							{formatPercentChange(coin.price_change_percentage_24h)}
+						</span>
+					</div>
 				</div>
 			{/each}
 		</div>
-
-		<!-- Remaining coins compact list -->
-		{#if items.length > 3}
-			<div class="crypto-list">
-				{#each items.slice(3, 8) as coin (coin.id)}
-					{@const changeClass = getChangeClass(coin.price_change_percentage_24h)}
-					<div class="crypto-item">
-						<div class="crypto-info">
-							<span class="crypto-symbol-sm">{coin.symbol.toUpperCase()}</span>
-							<span class="crypto-name-sm">{coin.name}</span>
-						</div>
-						{#if coin.sparkline && coin.sparkline.length > 0}
-							<div class="crypto-chart-sm">
-								<Sparkline data={coin.sparkline.slice(-48)} width={60} height={18} color="auto" />
-							</div>
-						{/if}
-						<div class="crypto-data">
-							<span class="crypto-price-sm">{formatCurrency(coin.current_price)}</span>
-							<span class="crypto-change-sm {changeClass}">
-								{formatPercentChange(coin.price_change_percentage_24h)}
-							</span>
-						</div>
-					</div>
-				{/each}
-			</div>
-		{/if}
 	{/if}
 </Panel>
 
@@ -99,9 +69,9 @@
 		color: var(--green);
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
-		margin-top: 0.5rem;
-		margin-bottom: 0.4rem;
-		padding-bottom: 0.2rem;
+		margin-top: 0.4rem;
+		margin-bottom: 0.3rem;
+		padding-bottom: 0.15rem;
 		border-bottom: 1px solid var(--border);
 	}
 
@@ -112,31 +82,31 @@
 	.indices-grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 0.4rem;
-		margin-bottom: 0.5rem;
+		gap: 0.3rem;
+		margin-bottom: 0.3rem;
 	}
 
 	.index-card {
 		background: rgba(255, 255, 255, 0.02);
 		border: 1px solid var(--border);
 		border-radius: 4px;
-		padding: 0.4rem;
+		padding: 0.3rem;
 	}
 
 	.index-name {
-		font-size: 0.55rem;
+		font-size: 0.5rem;
 		color: var(--text-muted);
 	}
 
 	.index-price {
-		font-size: 0.7rem;
+		font-size: 0.65rem;
 		font-weight: 600;
 		color: var(--text-primary);
 		font-variant-numeric: tabular-nums;
 	}
 
 	.index-change {
-		font-size: 0.6rem;
+		font-size: 0.55rem;
 		font-weight: 500;
 		font-variant-numeric: tabular-nums;
 	}
@@ -144,146 +114,72 @@
 	.index-change.up { color: var(--success); }
 	.index-change.down { color: var(--danger); }
 
-	/* Featured coins with big charts */
-	.featured-coins {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.featured-coin {
-		background: rgba(255, 255, 255, 0.02);
-		border: 1px solid var(--border);
-		border-radius: 4px;
-		padding: 0.5rem;
-	}
-
-	.featured-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 0.3rem;
-	}
-
-	.featured-left {
-		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
-	}
-
-	.featured-symbol {
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--text-primary);
-	}
-
-	.featured-name {
-		font-size: 0.55rem;
-		color: var(--text-muted);
-	}
-
-	.featured-right {
-		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
-	}
-
-	.featured-price {
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: var(--text-primary);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.featured-change {
-		font-size: 0.6rem;
-		font-weight: 500;
-		font-variant-numeric: tabular-nums;
-	}
-
-	.featured-change.up { color: var(--success); }
-	.featured-change.down { color: var(--danger); }
-
-	.featured-chart {
-		width: 100%;
-		overflow: hidden;
-	}
-
-	.featured-chart :global(svg) {
-		width: 100%;
-		height: auto;
-	}
-
-	/* Compact list for remaining coins */
+	/* Crypto rows with inline charts */
 	.crypto-list {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.crypto-item {
+	.crypto-row {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		padding: 0.3rem 0;
+		padding: 0.25rem 0;
 		border-bottom: 1px solid var(--border);
-		gap: 0.3rem;
+		gap: 0.4rem;
 	}
 
-	.crypto-item:last-child { border-bottom: none; }
+	.crypto-row:last-child { border-bottom: none; }
 
 	.crypto-info {
-		display: flex;
-		align-items: baseline;
-		gap: 0.3rem;
-		min-width: 80px;
+		min-width: 36px;
 	}
 
-	.crypto-symbol-sm {
+	.crypto-symbol {
 		font-size: 0.6rem;
 		font-weight: 600;
 		color: var(--text-primary);
 	}
 
-	.crypto-name-sm {
-		font-size: 0.5rem;
-		color: var(--text-muted);
-	}
-
-	.crypto-chart-sm {
+	.crypto-chart {
 		flex: 1;
 		display: flex;
 		justify-content: center;
+		min-width: 0;
+	}
+
+	.crypto-chart :global(svg) {
+		width: 100%;
+		max-width: 90px;
+		height: auto;
 	}
 
 	.crypto-data {
 		display: flex;
-		align-items: baseline;
-		gap: 0.3rem;
-		min-width: 80px;
-		justify-content: flex-end;
+		flex-direction: column;
+		align-items: flex-end;
+		min-width: 60px;
 	}
 
-	.crypto-price-sm {
+	.crypto-price {
 		font-size: 0.6rem;
 		font-weight: 500;
 		color: var(--text-primary);
 		font-variant-numeric: tabular-nums;
 	}
 
-	.crypto-change-sm {
+	.crypto-change {
 		font-size: 0.5rem;
 		font-weight: 500;
 		font-variant-numeric: tabular-nums;
 	}
 
-	.crypto-change-sm.up { color: var(--success); }
-	.crypto-change-sm.down { color: var(--danger); }
+	.crypto-change.up { color: var(--success); }
+	.crypto-change.down { color: var(--danger); }
 
 	.empty-state {
 		text-align: center;
 		color: var(--text-secondary);
 		font-size: 0.7rem;
-		padding: 1rem;
+		padding: 0.5rem;
 	}
 </style>
