@@ -1,11 +1,12 @@
 /**
- * News API - Fetch news from GDELT and other sources
+ * News API - Fetch news from GDELT
+ * Queries tuned for: crypto, AI, governance, network states, geopolitics
  */
 
 import { FEEDS } from '$lib/config/feeds';
 import type { NewsItem, NewsCategory } from '$lib/types';
 import { containsAlertKeyword, detectRegion, detectTopics } from '$lib/config/keywords';
-import { fetchWithProxy, API_DELAYS, logger } from '$lib/config/api';
+import { API_DELAYS, logger, fetchWithProxy } from '$lib/config/api';
 
 /**
  * Simple hash function to generate unique IDs from URLs
@@ -15,14 +16,11 @@ function hashCode(str: string): string {
 	for (let i = 0; i < str.length; i++) {
 		const char = str.charCodeAt(i);
 		hash = (hash << 5) - hash + char;
-		hash = hash & hash; // Convert to 32bit integer
+		hash = hash & hash;
 	}
 	return Math.abs(hash).toString(36);
 }
 
-/**
- * Delay helper
- */
 function delay(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -32,13 +30,11 @@ function delay(ms: number): Promise<void> {
  */
 function parseGdeltDate(dateStr: string): Date {
 	if (!dateStr) return new Date();
-	// Convert 20251202T224500Z to 2025-12-02T22:45:00Z
 	const match = dateStr.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/);
 	if (match) {
 		const [, year, month, day, hour, min, sec] = match;
 		return new Date(`${year}-${month}-${day}T${hour}:${min}:${sec}Z`);
 	}
-	// Fallback to standard parsing
 	return new Date(dateStr);
 }
 
@@ -54,9 +50,6 @@ interface GdeltResponse {
 	articles?: GdeltArticle[];
 }
 
-/**
- * Transform GDELT article to NewsItem
- */
 function transformGdeltArticle(
 	article: GdeltArticle,
 	category: NewsCategory,
@@ -65,10 +58,8 @@ function transformGdeltArticle(
 ): NewsItem {
 	const title = article.title || '';
 	const alert = containsAlertKeyword(title);
-	// Generate unique ID using category, URL hash, and index
 	const urlHash = article.url ? hashCode(article.url) : Math.random().toString(36).slice(2);
 	const uniqueId = `gdelt-${category}-${urlHash}-${index}`;
-
 	const parsedDate = parseGdeltDate(article.seendate);
 
 	return {
@@ -87,25 +78,25 @@ function transformGdeltArticle(
 }
 
 /**
- * Fetch news for a specific category using GDELT via proxy
+ * GDELT queries tuned for frontier topics
+ */
+const categoryQueries: Record<NewsCategory, string> = {
+	politics: '(geopolitics OR "world politics" OR sanctions OR "trade war" OR nato OR conflict)',
+	tech: '(technology OR startup OR "open source" OR robotics OR "quantum computing" OR biotech)',
+	finance: '(cryptocurrency OR bitcoin OR ethereum OR defi OR "crypto regulation" OR stablecoin OR "digital asset")',
+	gov: '(ethereum OR "web3" OR blockchain OR "smart contract" OR dao OR "decentralized" OR nft)',
+	ai: '("artificial intelligence" OR "machine learning" OR GPT OR LLM OR "AI safety" OR "AI regulation" OR anthropic OR openai OR deepmind)',
+	intel: '("network state" OR "charter city" OR governance OR "public goods" OR "quadratic funding" OR longevity OR "popup city" OR zuzalu)'
+};
+
+/**
+ * Fetch news for a specific category using GDELT directly (no CORS proxy needed for GDELT)
  */
 export async function fetchCategoryNews(category: NewsCategory): Promise<NewsItem[]> {
-	// Build query from category keywords (GDELT requires OR queries in parentheses)
-	const categoryQueries: Record<NewsCategory, string> = {
-		politics: '(politics OR government OR election OR congress)',
-		tech: '(technology OR software OR startup OR "silicon valley")',
-		finance: '(finance OR "stock market" OR economy OR banking)',
-		gov: '("federal government" OR "white house" OR congress OR regulation)',
-		ai: '("artificial intelligence" OR "machine learning" OR AI OR ChatGPT)',
-		intel: '(intelligence OR security OR military OR defense)'
-	};
-
 	try {
-		// Add English language filter and timespan for fresh results
 		const baseQuery = categoryQueries[category];
 		const fullQuery = `${baseQuery} sourcelang:english`;
-		// Build the raw GDELT URL with timespan=7d to get recent articles
-		const gdeltUrl = `https://api.gdeltproject.org/api/v2/doc/doc?query=${fullQuery}&timespan=7d&mode=artlist&maxrecords=20&format=json&sort=date`;
+		const gdeltUrl = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(fullQuery)}&timespan=24h&mode=artlist&maxrecords=25&format=json&sort=date`;
 
 		logger.log('News API', `Fetching ${category} from GDELT`);
 
@@ -114,7 +105,6 @@ export async function fetchCategoryNews(category: NewsCategory): Promise<NewsIte
 			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 		}
 
-		// Check content type before parsing as JSON
 		const contentType = response.headers.get('content-type');
 		if (!contentType?.includes('application/json')) {
 			logger.warn('News API', `Non-JSON response for ${category}:`, contentType);
@@ -132,7 +122,6 @@ export async function fetchCategoryNews(category: NewsCategory): Promise<NewsIte
 
 		if (!data?.articles) return [];
 
-		// Get source names for this category
 		const categoryFeeds = FEEDS[category] || [];
 		const defaultSource = categoryFeeds[0]?.name || 'News';
 
@@ -145,10 +134,8 @@ export async function fetchCategoryNews(category: NewsCategory): Promise<NewsIte
 	}
 }
 
-/** All news categories in fetch order */
 const NEWS_CATEGORIES: NewsCategory[] = ['politics', 'tech', 'finance', 'gov', 'ai', 'intel'];
 
-/** Create an empty news result object */
 function createEmptyNewsResult(): Record<NewsCategory, NewsItem[]> {
 	return { politics: [], tech: [], finance: [], gov: [], ai: [], intel: [] };
 }
