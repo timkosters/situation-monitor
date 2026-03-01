@@ -9,13 +9,14 @@ import { INDICES, SECTORS, COMMODITIES, CRYPTO } from '$lib/config/markets';
 import type { MarketItem, SectorPerformance, CryptoItem } from '$lib/types';
 import { fetchWithProxy, logger, FINNHUB_API_KEY, FINNHUB_BASE_URL } from '$lib/config/api';
 
-interface CoinGeckoPrice {
-	usd: number;
-	usd_24h_change?: number;
-}
-
-interface CoinGeckoPricesResponse {
-	[key: string]: CoinGeckoPrice;
+interface CoinGeckoMarketItem {
+	id: string;
+	symbol: string;
+	name: string;
+	current_price: number;
+	price_change_percentage_24h: number;
+	sparkline_in_7d?: { price: number[] };
+	market_cap: number;
 }
 
 interface FinnhubQuote {
@@ -89,12 +90,12 @@ async function fetchFinnhubQuote(symbol: string): Promise<FinnhubQuote | null> {
 }
 
 /**
- * Fetch crypto prices from CoinGecko via proxy
+ * Fetch crypto prices from CoinGecko via proxy (with sparkline data)
  */
 export async function fetchCryptoPrices(): Promise<CryptoItem[]> {
 	try {
 		const ids = CRYPTO.map((c) => c.id).join(',');
-		const coinGeckoUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
+		const coinGeckoUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=true&price_change_percentage=24h`;
 
 		logger.log('Markets API', 'Fetching crypto from CoinGecko');
 
@@ -103,19 +104,17 @@ export async function fetchCryptoPrices(): Promise<CryptoItem[]> {
 			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 		}
 
-		const data: CoinGeckoPricesResponse = await response.json();
+		const data: CoinGeckoMarketItem[] = await response.json();
 
-		return CRYPTO.map((crypto) => {
-			const priceData = data[crypto.id];
-			return {
-				id: crypto.id,
-				symbol: crypto.symbol,
-				name: crypto.name,
-				current_price: priceData?.usd || 0,
-				price_change_24h: priceData?.usd_24h_change || 0,
-				price_change_percentage_24h: priceData?.usd_24h_change || 0
-			};
-		});
+		return data.map((coin) => ({
+			id: coin.id,
+			symbol: coin.symbol,
+			name: coin.name,
+			current_price: coin.current_price || 0,
+			price_change_24h: coin.price_change_percentage_24h || 0,
+			price_change_percentage_24h: coin.price_change_percentage_24h || 0,
+			sparkline: coin.sparkline_in_7d?.price || []
+		}));
 	} catch (error) {
 		logger.error('Markets API', 'Error fetching crypto:', error);
 		return CRYPTO.map((c) => ({
@@ -124,7 +123,8 @@ export async function fetchCryptoPrices(): Promise<CryptoItem[]> {
 			name: c.name,
 			current_price: 0,
 			price_change_24h: 0,
-			price_change_percentage_24h: 0
+			price_change_percentage_24h: 0,
+			sparkline: []
 		}));
 	}
 }

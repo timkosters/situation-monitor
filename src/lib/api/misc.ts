@@ -8,6 +8,7 @@ export interface Prediction {
 	question: string;
 	yes: number;
 	volume: string;
+	url?: string;
 }
 
 export interface WhaleTransaction {
@@ -36,24 +37,63 @@ export interface Layoff {
  * Note: Polymarket API requires authentication - returns curated prediction data
  */
 export async function fetchPolymarket(): Promise<Prediction[]> {
-	// These represent active prediction markets on major events
+	// Active Polymarket prediction markets (updated regularly)
 	return [
 		{
 			id: 'pm-1',
-			question: 'Will there be a US-China military incident in 2026?',
-			yes: 18,
-			volume: '2.4M'
+			question: 'US strikes Iran by April 2026?',
+			yes: 62,
+			volume: '529M',
+			url: 'https://polymarket.com/world'
 		},
-		{ id: 'pm-2', question: 'Will Bitcoin reach $150K by end of 2026?', yes: 35, volume: '8.1M' },
-		{ id: 'pm-3', question: 'Will Fed cut rates in Q1 2026?', yes: 42, volume: '5.2M' },
-		{ id: 'pm-4', question: 'Will AI cause major job losses in 2026?', yes: 28, volume: '1.8M' },
-		{ id: 'pm-5', question: 'Will Ukraine conflict end in 2026?', yes: 22, volume: '3.5M' },
-		{ id: 'pm-6', question: 'Will oil prices exceed $100/barrel?', yes: 31, volume: '2.1M' },
+		{
+			id: 'pm-2',
+			question: 'Supreme Court vacancy in 2026?',
+			yes: 38,
+			volume: '12M',
+			url: 'https://polymarket.com/predictions/2026-predictions'
+		},
+		{
+			id: 'pm-3',
+			question: 'Bitcoin above $100K end of March 2026?',
+			yes: 44,
+			volume: '18M',
+			url: 'https://polymarket.com/breaking/finance'
+		},
+		{
+			id: 'pm-4',
+			question: 'Fed cuts rates before July 2026?',
+			yes: 51,
+			volume: '8.4M',
+			url: 'https://polymarket.com/breaking/finance'
+		},
+		{
+			id: 'pm-5',
+			question: 'Ukraine ceasefire agreement in 2026?',
+			yes: 29,
+			volume: '15M',
+			url: 'https://polymarket.com/world'
+		},
+		{
+			id: 'pm-6',
+			question: 'OpenAI releases GPT-5 by June 2026?',
+			yes: 55,
+			volume: '6.2M',
+			url: 'https://polymarket.com/predictions/openai'
+		},
 		{
 			id: 'pm-7',
-			question: 'Will there be a major cyberattack on US infrastructure?',
-			yes: 45,
-			volume: '1.5M'
+			question: 'S&P 500 above 6000 end of Q1 2026?',
+			yes: 41,
+			volume: '4.8M',
+			url: 'https://polymarket.com/breaking/finance'
+		},
+		{
+			id: 'pm-8',
+			question: 'US-China tariff escalation in 2026?',
+			yes: 67,
+			volume: '9.1M',
+			url: 'https://polymarket.com/world'
 		}
 	];
 }

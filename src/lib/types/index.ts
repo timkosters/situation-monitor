@@ -68,6 +68,7 @@ export interface CryptoItem {
 	price_change_percentage_24h: number;
 	market_cap?: number;
 	volume_24h?: number;
+	sparkline?: number[];
 }
 
 /**

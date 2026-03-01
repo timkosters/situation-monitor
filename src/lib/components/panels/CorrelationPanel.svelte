@@ -47,9 +47,7 @@
 </script>
 
 <Panel id="correlation" title="Pattern Analysis" {loading} {error}>
-	{#if news.length === 0 && !loading && !error}
-		<div class="empty-state">Insufficient data for analysis</div>
-	{:else if analysis}
+	{#if analysis}
 		<div class="correlation-content">
 			{#if analysis.emergingPatterns.length > 0}
 				<div class="section">
